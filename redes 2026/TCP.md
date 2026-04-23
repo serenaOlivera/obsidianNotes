@@ -1,0 +1,118 @@
+TCP es el protocolo de transporte más usado en internet. Garantiza que los datos lleguen completos, en orden y sin errores, incluso cuando la red debajo (IP) no lo garantiza.
+
+Modelo de servicio:
+- Flujo de bytes confiable (stream): la aplicación ve una 'tubería' contpinua de bytes entre origen y destino
+- Adaptativo: ajusta velocidad y retransmisiones según las condiciones de la red en tiempo real.
+Entidad TCP (ETCP) : software en cada host que implementa TCP (generalmente en el kernel del SO)
+
+## Problemas que resuelve
+TCP aborda los siguientes problemas:
+- Retransmisión de paquetes: mediante números de secuencia, ACKs y temporizadores.
+- Duración de temporizadores: algoritmos complejos para fijar tiempos de espera adaptativos.
+- Manejo de conexiones: estableces y terminar conexiones entre pares de procesos.
+- Direccionamiento: identificar procesos en hosts remotos mediante puertes 
+- Control de congestión:regular la inyección de paquetes para no saturar la red.
+- Control de flujo: evitar que un emisor rápido desborde a un receptor lento.
+TCP se hace cargo de todas las responsabilidades de la capa de transporte.
+
+## Flujo de datos y segmentación
+¿Cómo maneja TCP los datos de la aplicación?
+- La aplicación envía un flujo contínuo de bytes a TCP. TCP no conoce los límites de los mensajes de la aplicación: solo ve un **stream de bytes**.
+- TCP fragmenta ese flujo en segmentos de hasta 64 KB porque la red tiene límites de tamaño por paquete.
+- Cada segmento se envía dentro de un datagrama IP independiente.
+
+**Flujo completo (de punta a punta):**
+App origen -> ETCP fragmenta -> IP encapsula -> red transporta -> ETCP destino en reensambla-> App destino
+La app destino recibe el mismo flujo de bytes, como si estuviera conectada directamente.
+
+## Sockets y conexiones
+Para usar TCP, tanto el cliente como el servidor crean sockets (puntos de acceso al servicio). **Dirección de socket = dirección IP + número de puerto.**
+
+Se debe establecer una conexión explícita entre un socket emisor y uno receptor. Un mismo socket puede tener múltiples conexiones simultáneas. Cada conexión se identifica por el par: (socket_origen, socket_destino)
+
+## Números de secuencia y segmentos
+Cada byte del flujo de datos tiene su propio número de secuencia de 32 bits. Esro impone un límite teórico al tamaño del flujo 2^(32) = 4 GB
+
+Los números de secuencia permiten al receptor enviar confirmaciones de recepción (ACK) precisas. Permiten detectar datos faltantes, duplicados y desordenados.
+
+Segmento = Encabezado TCP +datos (0 o más bytes)
+
+¿Qué limita el tamaño de un segmento TCP?
+- Límite IP: cada segmento debe caber en la carga útil del datagrama IP en la capa de red (máx. 65.515 bytes)
+- MTU (Unidad Máxima de Transferencia): cada red física impone un límite al tamaño de trama. El segmento debe caber en la MTU. En la práctica, la MTU suele ser de 1500 bytes (carga útil de Ethernet)
+El tamaño máximo de segmento (MSS) es el menor entre el límite IP y la MTU de la red, desconectando encabezados.
+En ethernet: MSS típico ~ 1460 bytes (1500-20 IP -20 TCP)
+
+## Temporizadores y retransmisiones
+La capa de red (IP) no garantiza que los datagramas se entregarán, ni que llegarán correctamente.
+Solución: 
+- Si un segmento llega correctamente -> el receptor envía un ACK (confirmación)
+- Si el temporizador expira sin recibir ACK -> TCP retransmite el segmento.
+- TCP es responsable de gestionar los temporizadores y ejecutar las retransmisiones según sea necesario.
+
+Problema: los datagramas pueden llegar fuera de orden. En redes de datagramas, cada paquete puede tomar rutas diferentes y llegar en orden distinto al de envío. Esto es un problema porque la capa de aplicación, en muchos casos, necesita procesar los datos en el orden original del envío. 
+
+Solución de TCP: usa los números de secuencia para reensamblar los segmentos en la secuencia correcta antes de entregarlos a la aplicación. 
+
+## Mecanismo de ACK
+Funciona de la siguiente manera: 
+1. Al enviar un segmento, el emisor inicia un temporizador.
+2. Al llegar al destino, la ETCP receptora responde con un segmento que contiene el número de confirmación (ACK number).
+    El ACK number = siguiente número de secuencia que espera recibir. El ACK puede ir acompañado de datos (si hay algo para enviar en el sentido inverso, en una comunicación bi-direccional).
+3. Si el temporizador expira antes de recibir el ACK → el emisor retransmite el segmento
+
+### Desafíos del orden y retransmisión 
+1. Segmentos fuera de orden
+    Ej.: los bytes 3072–4095 pueden llegar antes que los bytes 2048–3071.
+    **Consecuencia:** TCP debe almacenar los segmentos adelantados en un búfer de reordenamiento y esperar a que lleguen los faltantes antes de entregar a la aplicación.
+    Tampoco puede confirmar un hueco: si llegó 1–999 y 2000–2999, solo puede confirmar hasta 999.
+2. Segmentos retardados
+    Si un segmento tarda más que el temporizador, TCP lo retransmite (posiblemente de forma innecesaria si el original aún está en tránsito).
+    **Solución:** el receptor descarta duplicados usando los números de secuencia (ya tiene esos bytes → los ignora).
+
+¿Qué pasa al retransmitir un segmento?
+	Las retransmisiones pueden incluir rangos de bytes diferentes al segmento original.
+	
+¿Por qué?
+	Al momento de retransmitir, la aplicación puede haber agregado nuevos datos al búfer de envío. TCP puede combinar los bytes pendientes en un nuevo segmento de tamaño diferente. **Consecuencia para el receptor:**	 El receptor no puede asumir que los segmentos llegan con los mismos rangos que fueron enviados originalmente. Debe llevar un control byte a byte de qué bytes se recibieron correctamente.
+
+## Estructura del encabezado
+Todo segmento TCP tiene tres partes:
+1. Encabezado fijo — 20 bytes. Contiene puertos, números de secuencia/ACK, flags y control de flujo.
+2. Opciones — Longitud variable (en palabras de 32 bits). Negocian parámetros como MSS.
+3. Datos — Opcionales. Un segmento puede ser solo encabezado (ej.: un ACK puro).
+### Estructura del encabezado
+![[Pasted image 20260406131006.png]]
+
+Partes del cuadro explicadas:
+- **Segmentos sin datos**
+  Se usan para enviar ACKs y mensajes de control (SYN, FIN). Solo contienen el encabezado TCP, sin datos de aplicación.
+- **Puerto de origen y puerto de destino**
+  Cada uno ocupa 16 bits (valores de 0 a 65.535). Puertos conocidos: 80 (HTTP), 443 (HTTPS), 22 (SSH), 25 (SMTP). 
+  IP + puerto = socket (punto terminal único de 48 bits que identifica un proceso en un host).
+  El par (socket_origen, socket_destino) identifica de forma única cada conexión TCP.
+- **Número de secuencia (32 bits)** 
+  Identifica la posición del primer byte de datos del segmento dentro del flujo de bytes total. Ej.: si el flujo empieza en byte 0 y un segmento contiene los bytes 1000-1499, su número de secuencia es 1000.
+- **Número de confirmación (ACK number, 32 bits)**
+   Indica el siguiente byte que el receptor espera recibir.• Ej.: si recibió correctamente hasta el byte 1499, el ACK number será 1500. Confirma implícitamente todos los bytes anteriores (ACK acumulativo).
+   Flag ACK (1 bit en el encabezado)
+   - Si ACK = 1: el campo «número de confirmación» es válido → el segmento confirma datos recibidos.
+   - Si ACK = 0: el campo se ignora → no hay confirmación en este segmento.
+    Piggybacking: ACKs «gratis» con datos: En la práctica, casi todos los segmentos (excepto el primer SYN) llevan ACK = 1, porque TCP aprovecha cada envío para confirmar lo recibido. 
+    Ejemplo concreto: A envía datos (seq=1000, 500 bytes) → B responde con datos propios y ACK=1500 en el mismo segmento → confirma los 500 bytes de A sin un paquete extra.
+- **Longitud del encabezado (4 bits)**
+   Indica el número de palabras de 32 bits en el encabezado TCP. Es necesario porque el encabezado tiene tamaño variable (por las opciones).
+   Mínimo: 5 palabras = 20 bytes (encabezado fijo, sin opciones). Máximo: 15 palabras = 60 bytes (con opciones llenas).
+- **Campo de opciones (longitud variable)** Permite negociar parámetros entre emisor y receptor al inicio de la conexión.
+  • MSS: tamaño máximo de segmento que acepta cada lado.
+  • Window Scale: ampliar la ventana de recepción más allá de 64 KB.
+  • SACK: confirmaciones selectivas (confirmar bloques no contiguos). Máximo espacio para opciones: 40 bytes (60 - 20 del encabezado fijo).
+
+- **Flags del encabezado:**
+  URG (Urgent): Indica que el segmento contiene datos urgentes que deben procesarse de inmediato. le campo Urgent Pointer acompaña este indicador y señala la posición en el flujo de datos donde terminan los datos urgentes.
+  PSH (Push): Sirve para pedir al receptor que procese y entregue los datos inmediatamente al nivel superior(aplicación) en lugar de esperar a completar el buffer. Esto se usa en escenarios donde la inmediatez es clave.
+  RST (Reset): Se utiliza para reiniciar una conexión. Se puede enviar, por ejemplo, cuando hay un error crítico en la comunicación o se quiere rechazar una conexió no deseada.
+  Urgent Pointer: Complementa el indicadorURG. Su propósito es especificar la ubicación del último byte de datos urgentes dentro del segmento.
+  CWR(Congestion Window Reduced) y ECE (Explicit Congestion Notification Echo): Relacionados con el manejo de congestión en la red. CWR inidca que el transmisor ha reducido su ventana de congestión. ECE señala que el recptor ha detectado congestión a través de notificaciones explícitas.
+
+[[Ejercicios]]
