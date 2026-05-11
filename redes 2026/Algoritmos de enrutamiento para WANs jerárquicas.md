@@ -46,7 +46,7 @@ Tipos de enrutadores en una región:
 Ahora que entendemos qué información tiene disponible un enrutador
 dentro y fuera de su región, el siguiente paso es preguntarnos cómo sintetizar esa información. Es decir: ¿cómo convertir la topología interna de una región en un resumen que otros enrutadores puedan usar para enrutar sin conocer todos los detalles?
 
- ¿Cómo sería el paquete de estado de enlace que resume una región?
+ **¿Cómo sería el paquete de estado de enlace que resume una región?**
 	 • Nombre de enrutador de borde de región que construye el paquete,
 	 • número de secuencia (para distinguirlo de paquetes de estado de enlace previos),
 	 • información del grafo que ve un enrutador ajeno a esa región. 
@@ -129,3 +129,48 @@ Para un enrutador de borde construir un LSP de enlaces externos:
 	  • Una vez que los resúmenes circulan correctamente, cada  enrutador tiene piezas dispersas de información: su topología interna y los resúmenes de las demás regiones.  El paso siguiente es ensamblar esas piezas en un grafo global coherente que   represente toda la WAN desde su punto de vista.
 
 **¿Cuándo se puede hacer la construcción del grafo de la red entera por un enrutador?**
+	Un enrutador (sea de borde o interno) sólo puede construir el grafo global de toda la red cuando:
+	- Ya recibió toods los paquetes de estado de enlace de resumen de todas las regiones donde no está.
+	- Además tiene los paquetes de estado de enlace de su región y de los enlaces externos.
+
+**¿Cómo un enrutador R construye el grafo entero de la red jerárquica?**
+	El grafo gloval de toda la red jerárquica construido por R es la unión de:
+	````
+	El grafo detallado de la región de R + 
+	grafos resumidos de todas las regiones donde no está R + Enlaces inter-regiones entre enrutadores de borde.
+	(Son escenciales porque permiten pegar los grafos resumido sentre sí y permiten que el grafo global sea conexo)
+	````
+Ejemplo:  grafo construido por 2 C
+![[Pasted image 20260511171832.png]]
+ Sobre el grafo total de la red jerárquica construido por un enrutador R se ejecuta el algoritmo de Dijkstra. Luego usando el árbol que genera el algoritmo de Dijkstra se construye la tabla de reenvío del enrutador R.
+
+### Tipos de inundación
+Vimos varios tipos de inundación:
+- **Inundación intra-región** de paquetes de estado de enlace de retardos de vecinos a un enrutador (distribuye la topología detallada de la región).
+  o Los paquetes solo circulan dentro de la región.
+  o Requiere una tabla de paquetes vistos organizada por enrutador de origen (el creador del paquete.)
+-  **Inundación inter-regiones:**
+   o Distribuye los grafos resumidos de cada región y LSP de enlaces externos hacia las demás.}
+   o Los paquetes circulan entre regiones, atravesando enrutadores de borde.
+   o Requiere una tabla de paquetes vistos organizada por región de origen.
+- **Inundación intra-región** de paquete de estado de enlace de resumen de la región.
+   o Difunde dentro de la región el resumen generado por su enrutador de borde designado.
+   o Aquí se usa la misma tabla que inundación inter-regiones, porque el resumen se identifica por región de origen, no por enrutado
+
+**¿Por qué se necesitan tablas de inundación separadas?**
+	 Porque cada tipo de inundación requiere una tabla que se indexa por un conjunto distinto de identificadores. No existe un índice en común que permita unificación en una sola tabla.
+
+**¿Qué otras cosas diferencian las distintas inundaciones?**
+	o Tienen alcances distintos (solo región vs entre regiones).
+	o Tienen semánticas distintas (topología interna, resumen de región).}
+	o Y requieren reglas de reenvío distintas (qué reenviar, hacia dónde reenviar, qué no reenviar
+
+## Bloque 3: Enrutamiento en áreas interconectadas
+### Introducción
+En este bloque damos el salto hacia un diseño real usado en Internet: OSPF.  Aquí la jerarquía ya no es simétrica: aparece un área dorsal (área 0) que actúa como eje de interconexión entre las demás áreas. Esto introduce nuevos roles, nuevas restricciones y nuevas decisiones de diseño. La pregunta que guía este bloque es:
+**¿Cómo debe modificarse el algoritmo anterior para funcionar en una jerarquía con un área dorsal y múltiples áreas no dorsales, considerando además que las tablas de reenvío apuntan a destinos que representan LAN, y se direccionan interfaces de máquinas?**
+
+ El resultado es un protocolo donde cada enrutador construye un grafo global de acuerdo a su posición en la jerarquía, combinando topología detallada de áreas donde está con resúmenes bipartitos de las
+demás. Este bloque muestra cómo las ideas del Bloque 2 se transforman en un protocolo operativo, escalable y ampliamente desplegado.
+
+### Grafos de áreas

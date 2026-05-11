@@ -4,25 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e4fd847d110c8726",
+        "id": "fde1ebcf762c2707",
         "type": "tabs",
         "children": [
           {
-            "id": "45a7e12db0e9925d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Capa de Red.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Capa de Red"
-            }
-          },
-          {
-            "id": "6c7f8370e814958c",
+            "id": "abd69c6e68bd9456",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -35,8 +21,7 @@
               "title": "Algoritmos de enrutamiento para WANs jerárquicas"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -201,13 +186,15 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
-  "active": "6c7f8370e814958c",
+  "active": "abd69c6e68bd9456",
   "lastOpenFiles": [
-    "fotos/Pasted image 20260503180506.png",
-    "fotos/Pasted image 20260503174827.png",
-    "Capa de Red.md",
     "Algoritmos de enrutamiento para WANs no jerárquicas.md",
     "Algoritmos de enrutamiento para WANs jerárquicas.md",
+    "fotos/Pasted image 20260511171832.png",
+    "Capa de Red.md",
+    "Capa de Transporte.md",
+    "fotos/Pasted image 20260503180506.png",
+    "fotos/Pasted image 20260503174827.png",
     "fotos/Pasted image 20260503173515.png",
     "fotos/Pasted image 20260503173350.png",
     "fotos/Pasted image 20260503173115.png",
@@ -219,7 +206,6 @@
     "Bloque 3- Tecnologías de implementación.md",
     "Bloque 2- Protocolos de aplicaciones de red.md",
     "Bloque 1- Arquitecturas de aplicaciones de red.md",
-    "Capa de Transporte.md",
     "TCP.md",
     "fotos/Pasted image 20260503134644.png",
     "fotos/Pasted image 20260503134337.png",
@@ -227,8 +213,6 @@
     "Control de flujo (CT).md",
     "Ejercicios (CT).md",
     "fotos/Pasted image 20260502183512.png",
-    "fotos/Pasted image 20260502183343.png",
-    "fotos/Pasted image 20260502183320.png",
     "Retroceso-N.md",
     "Protocolo de Tubería (CT).md",
     "Meta 8 - Modelo de capas de una red.md",
