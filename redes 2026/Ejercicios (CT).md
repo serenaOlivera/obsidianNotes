@@ -135,3 +135,129 @@ alumno accede al servicio de “consulta de notas” por primera vez.
 Cliente → Srv. Directorio: “¿puerto de consulta de notas?” → Directorio responde: “puerto N” → Cliente se
 conecta a puerto N → inetd (escuchando en N) acepta conexión → inetd hace fork del proceso “consulta_notas” → Hijo
 hereda conexión y atiende al cliente → inetd vuelve a escuchar
+## Transferencia de datos confiable
+
+P1. ¿Por qué Parada y Espera necesita números de secuencia si solo envía un
+paquete a la vez?
+➤ R: Para detectar paquetes duplicados. Si el ACK se pierde, el emisor retransmite. Sin N° de
+secuencia, el receptor no sabría si es un paquete nuevo o una copia.
+P2. En Retroceso-N, ¿por qué el receptor descarta paquetes fuera de orden en lugar
+de almacenarlos?
+➤ R: GBN usa ACK acumulativo: confirma hasta el último paquete recibido en orden. Guardar
+los desordenados obligaría a manejar un buffer complejo en el receptor, lo cual contradice
+la filosofía de simplicidad del receptor de GBN.
+P3. ¿Cuál es la ventaja principal de Repetición Selectiva sobre Retroceso-N?
+➤ R: SR solo retransmite el paquete perdido, no toda la ventana. En redes con alta tasa de
+errores y ventanas grandes, esto ahorra mucho ancho de banda. El costo: receptor más
+complejo con buffer.
+
+### ejercicio 2
+Datos: Enlace de 100 Mbps, propagación 25 ms, paquetes de 10.000 bits. ACK
+despreciable.
+a) Calcule U para Parada y Espera.
+➤ R: Denvío = L/R = 10.000 / 100×106 = 0,1 ms. RTT = 2 × 25 ms = 50 ms.
+➤ U = Denvío / (RTT + Denvío) = 0,1 / (50 + 0,1) = 0,002 = 0,2% → ¡muy ineficiente!
+b) ¿Cuántos paquetes en vuelo necesita un protocolo de tubería para lograr U ≥ 90%?
+➤ R: U = N × Denvío / (RTT + Denvío). Queremos 0,9 ≤ N × 0,1 / 50,1 → N ≥ 50,1 × 0,9 / 0,1 = 450,9
+➤ Se necesitan al menos N = 451 paquetes en vuelo para alcanzar 90% de utilización.
+c) ¿Cuál sería el throughput efectivo con Parada y Espera?
+➤ R: Throughput = U × R = 0,002 × 100 Mbps = 200 kbps (¡solo 0,2% del enlace de 100 Mbps!)
+
+### ejercicio 3
+Datos: Enlace de 1 Gbps, propagación 15 ms, paquetes de 8.000 bits. ACK despreciable.
+RTT = 2 × 15 ms = 30 ms.
+a) Calcule U y throughput para Parada y Espera.
+➤ R: Denvío = L/R = 8.000 / 109 = 0,008 ms
+➤ U = 0,008 / (30 + 0,008) = 0,00027 = 0,027% | Throughput = 0,00027 × 1 Gbps = 270 kbps
+b) Si se envían 3 paquetes en tubería (como en slide 22), ¿cuánto mejora?
+➤ R: U = N × Denvío / (RTT + Denvío) = 3 × 0,008 / 30,008 = 0,0008 = 0,08%
+➤ Mejora: ×3 respecto a P&E. Throughput = 0,0008 × 1 Gbps = 800 kbps. Aún muy bajo.
+c) ¿Cuántos paquetes en vuelo se necesitan para U = 100%?
+➤ R: 1 = N × 0,008 / 30,008 → N = 30,008 / 0,008 = 3.751 paquetes
+➤ Conclusión: Con alta velocidad y alta latencia, se necesita una ventana enorme para llenar el
+enlace. Esto exige muchos bits para N° de secuencia.
+
+### Ejercicio 4
+Datos: Enlace de 10 Mbps, propagación 10 ms, paquetes de 5.000 bits. ACK despreciable.
+Se usa Retroceso-N.
+a) ¿Cuál es la utilización con Parada y Espera?
+➤ R: Denvío = 5.000 / 10×106 = 0,5 ms. RTT = 20 ms. U = 0,5 / 20,5 = 0,0244 = 2,44%
+b) ¿Cuántos paquetes en vuelo necesita GBN para U ≥ 80%?
+➤ R: 0,8 ≤ N × 0,5 / 20,5 → N ≥ 20,5 × 0,8 / 0,5 = 32,8 → N = 33 paquetes
+c) ¿Cuántos bits de N° de secuencia necesita GBN para esa ventana?
+➤ R: GBN necesita MAX_SEQ ≥ 33, o sea MAX_SEQ + 1 ≥ 34 secuencias. Se requiere 2k ≥ 34 → k = 6
+bits (26 = 64 secuencias, ventana máx = 63).
+d) ¿Y si se usara Repetición Selectiva con los mismos 6 bits?
+➤ R: Ventana máx SR = (26)/2 = 32 paquetes. U = 32 × 0,5 / 20,5 = 0,78 = 78%. No alcanza el 80%: SR
+necesitaría 7 bits (ventana máx = 64).
+
+### Ejercicio 5
+Dato: Un protocolo usa N° de secuencia de 3 bits (secuencias 0 a 7, MAX_SEQ = 7).
+a) ¿Cuál es el tamaño máximo de la ventana emisora en Retroceso-N?
+➤ R: Ventana máx. = MAX_SEQ = 7. No puede ser 8 (= MAX_SEQ + 1) porque el receptor no
+podría distinguir un paquete nuevo del paquete 0 retransmitido.
+b) ¿Cuál es el tamaño máximo de la ventana receptora en Repetición Selectiva?
+➤ R: Ventana máx. = (MAX_SEQ + 1) / 2 = (7 + 1) / 2 = 4. La mitad del espacio de secuencia
+garantiza que las ventanas de emisor y receptor nunca se solapen.
+c) Si se usaran 4 bits para N° de secuencia (0 a 15), ¿cuántos paquetes en vuelo
+permitiría GBN?
+➤ R: MAX_SEQ = 24 – 1 = 15. Ventana máx. GBN = 15 paquetes. Y para SR: ventana máx. =
+(15+1)/2 = 8 paquetes.
+### Ejercicio 6 
+P1. Escenario: Un emisor usa GBN con ventana = 4 y envía paquetes 0, 1, 2, 3. El paquete 1
+se pierde. ¿Qué paquetes retransmite el emisor al expirar el temporizador?
+➤ R: El receptor acepta pkt 0 (envía ACK 0), pero descarta pkts 2 y 3 (fuera de orden). El emisor
+retransmite 1, 2, 3 (toda la ventana desde el paquete perdido).
+P2. Mismo escenario con Repetición Selectiva. ¿Qué cambia?
+➤ R: El receptor almacena pkts 2 y 3 en su buffer y envía ACK individual para cada uno. Solo
+retransmite el paquete 1. Al recibirlo, el receptor entrega 1, 2, 3 en orden a la capa superior.
+Ahorro: 2 retransmisiones menos.
+P3. ¿Qué es piggybacking y cuándo resulta útil?
+➤ R: Piggybacking = incluir el ACK dentro de un paquete de datos que viaja en sentido contrario. Es
+útil en comunicación bidireccional porque ahorra un paquete completo. Si no hay datos para
+enviar rápidamente, se usa un temporizador auxiliar corto para enviar el ACK solo y evitar que
+expire el temporizador del e
+## Control de flujo
+#### Ejercicio 1
+Durante una conexión TCP, el emisor recibe un ACK con WIN = 0.
+Responde:
+(a) ¿Qué significa para el emisor?
+(b) ¿Qué podría ocurrir si se quedase a la espera
+de un nuevo anuncio de ventana?
+(c) ¿Cómo resuelve TCP esa situación?
+
+##### Solución:
+(a) El búfer de recepción está lleno. El emisor debe detener el envío de datos nuevos.
+(b) El ACK que libera el búfer podría perderse. El emisor quedaría bloqueado indefinidamente (interbloqueo).
+(c) El emisor arranca un temporizador de persistencia y envía periódicamente segmentos de sondeo (1 byte) que fuerzan al receptor a contestar con el WIN actualizado. Así se garantiza que el emisor se entere en cuanto el receptor libere espacio, aun si los ACK se pierden.
+
+#### Ejercicio 2
+El receptor tiene un RcvBuffer = 16 KB.
+• Ha recibido 12 KB de datos.
+• La aplicación ha leído 5 KB.
+• El emisor ya tiene 2 KB en vuelo no confirmados.
+Calcula:
+• (a) el valor de rwnd que anuncia el receptor
+• (b) los bytes adicionales que el emisor puede enviar
+
+##### Solución:
+Fórmula: rwnd = RcvBuffer − (datos recibidos − datos leídos)
+Paso 1 — datos en búfer: 12 KB − 5 KB = 7 KB ocupando búfer
+Paso 2 — (a) rwnd anunciada: 16 − 7 = rwnd = 9 KB
+Paso 3 — (b) nuevos bytes enviables: rwnd − bytes en vuelo 9 − 2 = 7 KB
+
+#### Ejercicio 3
+Traza temporal, ¿Qué WIN se anuncia tras cada evento?
+Receptor con RcvBuffer = 10 KB. Estado inicial: búfer vacío, aplicación no ha leído nada. Completa WIN anunciado en cada evento.
+![[Pasted image 20260427133152.png]]
+
+##### Solución: 
+esta es : ![[Pasted image 20260427133208.png]]
+
+## Control de Congestión (CT)
+![[Pasted image 20260502183207.png]]
+![[Pasted image 20260502183218.png]]
+![[Pasted image 20260502183233.png]]
+![[Pasted image 20260502183320.png]]
+![[Pasted image 20260502183343.png]]
+![[Pasted image 20260502183512.png]]

@@ -19,7 +19,7 @@ Tenemos dos soluciones propuestas para las colisiones:
 2. Una máquina coordina el orden de transmisión de las demás máquinas (usada en WiFi).
 
 ## Control de errores
-Las colisiones son solo una de las formas en que un mesaje puede dañarse. Incluso si evitamos o controlamos las colisiones. el medio físico sigue introduciendo ruido, interferencia y atenuación. Por eso necesitamos mecanismos que permitan detectar si un mensaje llegó con errores.
+Las colisiones son solo una de las formas en que un mesaje puede dañarse. Incluso si evitamos o controlamos las colisiones, el medio físico sigue introduciendo ruido, interferencia y atenuación. Por eso necesitamos mecanismos que permitan detectar si un mensaje llegó con errores.
 
 Supongamos que mandamos un mensaje entre dos computadoras, y pasa por 10 computadoras antes de llegar a destino, y en el medio el mensaje es alterado. Para poder detectar que es un mensaje errado, ambos emisor y receptor acuerdan usar una función f que aplicada al mensaje da una secuencia de bits. Si el mensaje a mandar es M, se envía entonces M ++ f(M)
 

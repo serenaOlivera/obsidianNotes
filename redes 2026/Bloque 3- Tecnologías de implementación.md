@@ -3,12 +3,12 @@ Un protocolo es una idea abstracta: describe la lógica de interacción, no la f
 ## Sockets
 Un socket es un punto de conexión que permite a una aplicación enviar y recibir datos por la red sin conocer los detalles internos de TCP o UDP, usando una interfaz uniforme en cualquier sistema operativo.
 
-Un socket no es un portocolo: es una abstracción para acceder a protocolos de transporte. Los sockets se usan para invocar a TCP o UDP a través del sistema operativo.
+Un socket no es un protocolo: es una abstracción para acceder a protocolos de transporte. Los sockets se usan para invocar a TCP o UDP a través del sistema operativo.
 
 Los sockets:
 - **Unifican:** la misma interfaz de programación de aplicaciones para TCP y UDP.
 - **Simplifican:** esconden la complejidad del transporte.
-- **Estandarizan:** permiten qu eprogramas escritos en distintos lenguajes se comuniquen igual.
+- **Estandarizan:** permiten que programas escritos en distintos lenguajes se comuniquen igual.
 - **Aíslan:** la aplicación se enfoca en su lógica, no en la mecaánica de la red
 ### Socket API:
 Conjunto básico de funciones que permiten a dos programas comunicarse a través de la red enviando y recibiendo datos directamente sobre protocolos como TCP y UDP. Obliga a manejar algunos detalles de transporte como puertos, direcciones, envío y recepción de datos.

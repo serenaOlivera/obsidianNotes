@@ -1,7 +1,7 @@
 Una arquitectura por sí sola, no alcanza para que los nodos puedan colaborar: saber quién hace qué no explica cómo se comunican ni qué reglas siguen para coordinarse. Para que una aplicación distribuida funcione, los nodos necesitan un lenguaje común, un conjunto de mensajes y normas que les permita interactuar de manera coherente. 
 
 Un **protocolo** es el lenguaje de la aplicación distribuida: sin él, no hay coordinación posible. 
-El propósito, es comprender cómo dos aplicaciones acuerna qué mensajes intercambiar, cómo interpretarlos y cuándo enviarlos, para lograr una interacción coherente y predecible.
+El propósito, es comprender cómo dos aplicaciones acuerdan qué mensajes intercambiar, cómo interpretarlos y cuándo enviarlos, para lograr una interacción coherente y predecible.
 
 ### ¿Qué cosas definir en un protocolo de aplicación de red?
 - Tipos de mensajes

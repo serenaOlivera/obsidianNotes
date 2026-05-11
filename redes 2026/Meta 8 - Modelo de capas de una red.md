@@ -1,4 +1,4 @@
-Este bloque responde a ¿Cómo oranizamos toda la complejidad de una red en una arquitectura clara, modular y escalable?
+Este bloque responde a ¿Cómo organizamos toda la complejidad de una red en una arquitectura clara, modular y escalable?
 ![[Pasted image 20260318120923.png]]
 ![[Pasted image 20260318120948.png]]![[Pasted image 20260318121021.png]]
 [[TCP-IP]]

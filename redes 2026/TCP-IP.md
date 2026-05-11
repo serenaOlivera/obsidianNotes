@@ -8,7 +8,7 @@ La capa de transporte de internet, tiene dos protocolos:
 	 TCP también manjea el control de flujo y el control de congesitón 
 	 
 	 Para cumplir con lo que promete, TCP necesita mantener estado. Osea que ambos extremos deben acordar qué números de secuencia usarán, que ambos están vivos y listos, que ambos pueden recibir datos. 
-	 El estado ocupa recursos como búferes, temporizadores, entradas de tablas de conexión, ventanas de congestión. Por lo tanto, necesita TCP necesita crear y destruir esa información de estado.
+	 El estado ocupa recursos como búferes, temporizadores, entradas de tablas de conexión, ventanas de congestión. Por lo tanto, n TCP necesita crear y destruir esa información de estado.
 	 
 	 Entonces TCP necesita crear una conexión porque sus garantías requieren que ambos extremos mantengan y sincronicen un estado compartido. Ese estado dbe liberarse (a esto se lo llama liberación de conexión), sino el servidor quedaría ocn informaciones innecesarias.
 	 

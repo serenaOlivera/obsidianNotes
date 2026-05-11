@@ -115,4 +115,4 @@ Partes del cuadro explicadas:
   Urgent Pointer: Complementa el indicadorURG. Su propósito es especificar la ubicación del último byte de datos urgentes dentro del segmento.
   CWR(Congestion Window Reduced) y ECE (Explicit Congestion Notification Echo): Relacionados con el manejo de congestión en la red. CWR inidca que el transmisor ha reducido su ventana de congestión. ECE señala que el recptor ha detectado congestión a través de notificaciones explícitas.
 
-[[Ejercicios]]
+[[Ejercicios (CT)]]

@@ -9,3 +9,4 @@ Metas:
 6. [[Meta 6 - Conectando procesos]]
 7. [[Meta 7 - Aplicaciones de red]]
 8. [[Meta 8 - Modelo de capas de una red ]]
+[[Diagramas Introducción]]

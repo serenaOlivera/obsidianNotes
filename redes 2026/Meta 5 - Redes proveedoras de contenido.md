@@ -71,7 +71,7 @@ La transcodificación es el proceso de convertir un contenido digital de un form
 - Monitoreo
 - failover regional
 	  El failover regional es el mecanismo mediante el cual un servicio puede migrar automáticamente su operación desde una región que falla hacia otra región que sigue funcionando, sin que los usuarios pierdan acceso al contenido.
-	  Este mecanismo garantiza continuidad incluso ante fallas grandes: cortes eléctricos, problemas climáticos, errores de softwar, congestión extrema o caídas de conectividad.
+	  Este mecanismo garantiza continuidad incluso ante fallas grandes: cortes eléctricos, problemas climáticos, errores de software, congestión extrema o caídas de conectividad.
 ![[Pasted image 20260316202213.png]]
 ## Red privada global
 Incluso con centros de datos, si cada réplica hacia los PoPs viaja por redes de tránsito global, volvemos al problema original: alto costo, alta latencia y dependencia de terceros.

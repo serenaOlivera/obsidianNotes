@@ -27,6 +27,7 @@ Para evitar que el emisor sobrecargue al receptor, es necesario definir un mecan
   ![[Pasted image 20260318104455.png]]
   
   Para evitar esto, se debe hacer uso de la retroalimentación al emisor. Osea, el receptor le indica al emisor cuándo y cuánto puede enviar
+[[Control de flujo (CT)]]
 
 ## Comunicación confiable
 EL control de flujo evita que el emisor envpíe datos más rápido de lo que el receptor puede procesar, protegiendo al host de desbordes y pérdidas locales. Pero aún cuando el receptor no se satura, eso no garantiza que la comunicación sea correcta: la red puede perder, duplicar o desordenar paquetes, y los procesos necesitan mecanismos para detectar y corregir esos problemas. Por eso, además del control del flujo, es necesario un proceso que asegure una comunicación confiable entre procesos, permitiendo reconstruir los datos completos y en el orden adecuado.

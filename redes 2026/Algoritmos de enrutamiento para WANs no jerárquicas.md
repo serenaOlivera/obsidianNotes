@@ -116,7 +116,8 @@ Cada enrutador construye un paquete de estado de enlace (LSP) conteniendo los re
 
 ¿Qué datos debe tener un LSP?
 	- Identidad del emisor (para saber de quien se trata)
-	- Número de secuencia (para distinguir entre distintos LSP de un enrutador) oLista de <vecino, retardo al vecino>
+	- Número de secuencia (para distinguir entre distintos LSP de un enrutador) 
+	- Lista de <vecino, retardo al vecino>
 	
 
 ¿Cuándo se pueden construir los LSP?

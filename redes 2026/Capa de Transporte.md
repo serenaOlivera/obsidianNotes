@@ -61,7 +61,7 @@ Problema: El cliente conoce al proceso servidor adecuado, pero este se encuentra
 4. **Generación (fork):** El servidor de procesos genera (fork) el servidor solicitado y le permite heredar la conexión existente con el cliente, de modo que la comunicación continúa sin interrupción
 5. **Servicio activo:** El nuevo servidor recientemente activado realiza el trabajo solicitado por el cliente. Mientras tanto, el servidor de procesos vuelve a escuchar en los puertos, listo para atender nuevas solicitudes entrantes.
 ![[Pasted image 20260406164053.png]]
-[[Ejercicios]]
+[[Ejercicios (CT)]]
 
 
 ### Puertos bien conocidos 
@@ -90,7 +90,7 @@ Problema: Si cada servicio tiene su propio demonio ejecutándose permanentemente
 **Combinación de ambos** 
 - En Kubernetes, kube-dns (descubrimiento) + auto-scaling (activación). [Capa de Aplicación]
 
-[[Ejercicios]]
+[[Ejercicios (CT)]]
 
 ## Entrega confiable
 
@@ -131,3 +131,67 @@ Cada paquete lleva un número de secuencia único. Cuando llega un paquete, el r
 Si usamos parada y espera con alta latencia, el emisor pasa la mayor parte del tiempo ocioso esperando el ACK, osea hay una utilización muy baja del enlace.
 
 [[Protocolo de Tubería (CT)]]
+
+## [[Control de flujo (CT)]]
+## [[Control de Congestión (CT)]]
+## Duplicados Retrasados
+No se pueden entregar segmentos duplicados a la capa de aplicación. Como consecuencia, el receptor debe poder decidir para cada segmento que llega, si es duplicado o no.
+
+La manera de detectar duplicados eficientemente es a través de **números de secuencia**:
+- Numerar cada segmento con un n° de secuencia.
+- Dos segmentos con n° distinto son distintos 
+Esto funcionaría perfecto si los números fueran de tamaño arbitrario, pero el espacio de secuencia es finito.
+¿Porqué?
+	Los segmentos tienen longitud máxima, el n° de secuencia debe entrar en el campo del encabezado. Este campo tiene longitud fija, sólo hay un número finito de valores posibles.
+	Como consecuencia, los números se reutilizan. Numerar los segmentos sólo con eso ya no alcanza.
+
+### Dos escenarios donde aparecen problemas
+
+#### Escenario A - Dentro de una conexión
+El espacio de secuencia se cicla,
+- Los n° van 0> 1-> 2-> 3, vuelven a 0 y suben hasta 3 de nuevo 
+- Un segmento con n°3 queda demorado y llega cuando ya pasó el segundo 3.
+- Resultado: El receptor lo acepta como nuevo: el espacio de secuencia se reutilizó y el duplicado vivió demasiado en la red
+![[Pasted image 20260503134644.png]]
+#### Escenario B - Entre conexiones
+En el ejemplo:
+- Espacio de secuencia de 2 bits (0-3)
+- Antes de la segunda conexión se libera la primera
+- La 2da conexión llega rápido al n° 2
+- Un duplicado retrasado de la primera conexión con n° 2 aún vive en la red
+- Es aceptado por error en la 2da conexión
+- ![[Pasted image 20260503134337.png]]
+
+### La idea unificadora: limitar el tiempo de vida 
+Asegurar que ningún paquete viva más de T segundos en la red. Aplica a : paquetes de datos, retransmisiones, confirmaciones de recepción (acks). Eliminar paquetes viejos que sigan circulando hace que ambos escenarios sean manejables .
+#### Solución para el escenario A 
+El origen no debe reutilizar un n° de secuencia dentro de T segundos (tiempo de vida del paquete). 
+
+Funciona porque, cuando se llega a un n° ya usado, ese segmento viejo ya murió hace tiempo en la red. El espacio de secuencia debe ser lo bastante grande para que no se cicle dentro de T segundos.
+
+**Ejercicio**: Una conexión usa segmentos de 1500 B, transmite a 10 Mbps y el tiempo de vida máximo de segmento es T = 30s ¿De cuántos bits debe ser el n° de secuencia?
+
+**Solución**: Hay que contar cuántos segmentos como máximo se pueden transmitir en T segundos.
+- Bits transmitidos en T: $10^7 \ bits/s \ * 30s = 3* 10^8 bits$
+- Bits por segmento: $1500*8 \ = 12000\ bits$
+- Segmentos máximos en T: $3 * 10^8 / 1,2 *10^4 = 25000\ segmentos$
+-  Bits necesarios: $log_2(25000) \approx 14,6$ (esto se usa para saber cuantos bits son necesarios para direccionar esos 25000 segmentos)
+Respuesta: 15 bits
+
+#### Solución para el escenario B
+Si la nueva conexión empieza en 0, puede chocar con duplicados de la conexión anterior.
+Entonces, cada conexión elige un n° inicial de secuencia distinto para no entrar en el rango de los duplicados de conexiones anteriores.
+
+**Implementación 1: n° incial aleatorio**
+	Al crear una nueva conexión, cada extremo elige un n° aleatorio de 32 bits. Ese n° pasa a ser el n° inicial de secuencia para los datos.
+	 Esto tiende a funcionar porque la probabilidad de que un duplicado retrasado caiga en el rango de la nueva conexión es baja gracias a la elección aleatoria.
+
+**Implementación 2: n° incial atado al reloj**
+	Cada host tiene un contador binario que se incrementa en intervalos uniformes. El n° inicial de cada nueva conexión se toma del valor actual del reloj. Los relojes de los hosts no necesitan estar sincronizados. 
+	Esto funciona porque el reloj avanza monotónicamente: el n° inicial es siempre posterior al usado por la conexión previa, fuera del rango de sus duplicados. 
+
+Ejemplo (con esquema basado en reloj)
+- Pulso de reloj cada $4\  \mu s$
+- Tiempo de vida máximo de paquete $T=\ 120 s$
+- N° de secuencia: $32 \ bits$
+- El reloj corre lo bastante rápido como para que cada nueva conexión abra en un valor distinto, y lo bastante lento como para no agotar los 32 bits dentro de T segundos.

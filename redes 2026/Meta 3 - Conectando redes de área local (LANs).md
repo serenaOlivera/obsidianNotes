@@ -36,6 +36,7 @@ Al pasar de unas pocas LAN interconectadas a redes de área amplia, la escala ca
 En este escenario, elegir por dónde enviar un paquete deja de ser trivial, ningún enrutador puede tener una visión completa y perfecta del estado global. Por eso, en las WAN aparece un nuevo desafío arquitectónico: necesitamos mecanismos sistemáticos para calcular, actualizar y coordinar rutas.
 
 Hay rutas mejores que otras para ir a un destino, la mejor ruta entre dos dispositivos es la ruta más corta entre esos dispositivos (en el sentido de matemática discreta). Para llegar a esto, debemos modificar las tablas de reenvío con ese propósito. Los algoritmos que modifican esas tablas, se llaman algoritmos de enrutamiento. 
+[[Algoritmos de enrutamiento para WANs no jerárquicas]]
 
 ## Ejemplos de redes de área amplia 
 Las WAN que usamos todos los días, como las redes de fibra hasta el hogar o las redes telefónicas, son ejemplos donde estos mecanismos se aplican a gran escala, con miles de enrutadores y múltiples tecnológicas físicas.
