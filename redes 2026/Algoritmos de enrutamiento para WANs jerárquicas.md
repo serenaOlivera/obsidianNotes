@@ -174,3 +174,217 @@ En este bloque damos el salto hacia un diseño real usado en Internet: OSPF.  Aq
 demás. Este bloque muestra cómo las ideas del Bloque 2 se transforman en un protocolo operativo, escalable y ampliamente desplegado.
 
 ### Grafos de áreas
+**¿Cómo representar un área mediante un grafo con pesos en sus arcos?**
+![[Pasted image 20260518194355.png]]
+- Los enrutadores se representan con nodos.
+- A cada arco se le asigna un costo o retardo.
+- Una conexión punto-punto entre dos enrutadores se representa por un par de arcos, uno en cada dirección. Sus pesos pueden ser diferentes.
+- Una red de multi-acceso de enrutadores se representa con un nodo para la red en sí. Los arcos desde el nodo de la red a los enrutadores tienen peso 0.
+- Una LAN de computadoras se representa con un nodo. Los arcos desde enrutadores conectados a la LAN tienen un peso.
+
+Para entender cómo enrutar en esta jerarquía más estricta, necesitamos una representación adecuada de cada área.
+
+**¿Qué grafo ve un enrutador de un área A en la que no está?**
+	El enrutador ve un grafo reducido G de A (G representa lo único que necesita saber sobre el área A para enrutar hacia ella).  G tiene como nodos:
+	-  los enrutadores de borde de área que conectan A con el área dorsal y
+	- las LAN (de computadoras) que existen dentro del área A.
+	En G hay un arco:
+	-  desde cada EBA (Enrutador de Borde de Área) de A hacia cada LAN del área A
+	- siempre y cuando existe un camino dirigido desde el EBA hacia esa LAN.
+	Cada arco de G tiene un peso igual al costo del camino más corto desde el EBA a la LAN.
+![[Pasted image 20260518194917.png]]
+
+Pero enrutar hacia una LAN no es suficiente: también necesitamos enrutar entre áreas. Para eso, debemos entender cómo se ve el área dorsal desde el punto de vista de los enrutadores internos de un área no dorsal. Aquí aparece el segundo tipo de resumen: el resumen del área dorsal.
+
+**¿Qué grafo ve un enrutador R interno a un área A del área dorsal?**
+	R construye un grafo reducido G del área dorsal (G representa lo único que necesita R saber sobre el área dorsal para enrutar hacia las demás áreas):
+	• G tiene como nodos los EBA que están conectados al área dorsal.
+	• En G hay un arco:
+		o que va de cada EBA de A a un EBA que no es de A
+		o siempre y cuando existe un camino dirigido desde el EBA de A hacia el otro EBA.
+	• Cada arco de G tiene un peso igual al costo del camino más corto desde el EBA de A hacia el otro EBA.
+	![[Pasted image 20260518200319.png]]
+Al evitar un grafo completo el paquete de resumen del área dorsal es mucho más liviano, lo que reduce el consumo del ancho de banda durante la inundación.
+
+**¿Cómo es el grafo del área dorsal que observa un enrutador dorsal?** (considerar que un enrutador dorsal ve la topología completa del área dorsal)
+	• Es un grafo que tiene:
+		o como vértices los enrutadores en el área 0 (que pueden ser internos o EBA) y
+		o como arcos los enlaces entre los enrutadores del área dorsal.
+		o Cada arco tiene un peso que representa el costo de atravesar ese arco.
+	• En OSPF el peso de cada arco es configurado por el administrador de la red en lugar de ser estimado automáticamente (como se hacía en los protocolos anteriores).
+
+![[Pasted image 20260518200529.png]]
+
+### Grafos Globales
+**¿Cómo es el grafo de toda la red que ve un enrutador dorsal R no EBA?**
+	El grafo visto por R consiste de la unión de grafos que ya analizamos en detalle:
+		o Grafo resumido de las áreas que ve R (para un área A es un grafo bipartito desde los EBA de A hacia las LAN de A).
+		o Grafo de la topología completa del área dorsal (ve todos los enrutadores del área 0 y todos los enlaces entre ellos).
+		![[Pasted image 20260519163349.png]]
+
+**¿Cómo es el grafo de toda la red que ve un EBA R?**
+	El grafo visto por R consiste de la unión de grafos que ya analizamos en detalle:
+		o Grafo resumido de las áreas que donde no está R (para un área A, es un grafo bipartito conectando los EBA de A con las LAN de A).
+		o Grafo de la topología completa del área dorsal (ve todos los enrutadores del área 0 y todos los enlaces entre ellos con sus costos).
+		o Grafo de la topología de las otras áreas donde está R 
+		![[Pasted image 20260519163650.png]]
+
+### Paquetes de estado de enlace
+
+**Paquete de estado de enlace de retardos a los vecinos**
+Los paquetes de estado de enlace de retardo a los vecinos se construyen dentro de cada área no dorsal y dentro del área dorsal. Cada enrutador R interno a un área A construye un paquete de estado de enlace que contiene los retardos (costos) hacia cada uno de sus vecinos dentro de A.
+
+La estructura del paquete es la misma que en el protocolo de estado de enlace que ya estudiamos: lista de pares de vecino y retardo a él. La diferencia de OSPF con el protocolo de estado de enlace es
+que los retardos (costos) no se estiman automáticamente, sino que son configurados por el administrador de la red.
+
+**Pasos para construir paquete de estado de enlace de retardo a los vecinos de un enrutador R (en área dorsal o las demás áreas).**
+1. Averiguar quiénes so los vecinos:
+    Cuando un enrutador se inicia, envía mensajes Hello a:  todas las líneas punto a punto, al grupo de todos los enrutadores de su LAN si está en una LAN de enrutadores.
+    A partir de las respuestas R aprende quiénes son sus vecinos.
+2. Recordar que los retardos a esos vecinos fueron fijados por el administrador de red.
+3. Finalmente con la información obtenida construir el paquete de estado de enlace de retardo a los vecinos de R. Con la lista de vecinos y los costos configurados, R construye su paquete de estado de enlace de retardos a los vecinos, con la misma estructura que en el protocolo de estado de enlace estudiado previamente.
+
+**Paquete de estado de enlace de resumen de área no dorsal A**
+	• Este paquete es construido por un EBA R del área A.
+	• Contiene la información necesaria para que los enrutadores de otras áreas puedan alcanzar las LAN de A sin conocer su topología interna.
+	• El paquete incluye para cada LAN de A:
+		o el EBA de A que la anuncia,
+		o El costo mínimo desde ese EBA hasta esa LAN dentro del área A.
+	• En otras palabras: el paquete resume el grafo bipartito que ya estudiamos “EBA de A -> LAN de A”, donde cada arco está representado por el costo mínimo de su EBA hacia su LAN.
+	***Los pasos para construir este tipo de paquete, son:***
+	1. **Inundación dentro del área A:** se distribuyen por inundación los LSP de retardos a vecinos de todos los enrutadores de A.
+	2. **Reconstrucción del grafo del área A:** Con los LSP de retardos a vecinos para los enrutadores de A, cada EBA de A reconstruye la topología completa del área A.
+	3. **Ejecutar Dijkstra para cada EBA de A:** para cada EBA de A se ejecuta Dijkstra sobre el grafo del área A para obtener su árbol de caminos mínimos hacia todas las LAN del área.
+	4. **Construcción del paquete de resumen de A:** Usando los arboles de caminos mínimos de los EBA, se construye el paquete de estado de enlace de resumen del área A, que contiene los costos mínimos desde cada EBA de A hacia cada LAN de A.
+	![[Pasted image 20260521151345.png]]
+
+**Paquete de estado de enlace de resumen de área dorsal**
+	Para cada área no dorsal A, este paquete es construido por un EBA de A. Contiene la información necesaria para que desde un área A, se pueda alcanzar los EBA de las otras áreas a través del área
+	dorsal. En particular, para un área A, el paquete incluye para cada EBA R de A los costos mínimos para llegar desde R hacia los EBA de las demás áreas.
+	En otras palabras: el paquete resume el grafo bipartito que ya estudiamos:
+		o EBA de A -> EBA de otras áreas.
+		o Donde cada arco está etiquetado con el costo mínimo entre esos EBA dentro del área dorsal.
+	***Para construir un paquete e este tipo, se deben seguir los siguientes pasos:***
+	1. **Inundación dentro del área dorsal:** se distribuyen por inundación los LSP de retardos a vecinos de todos los enrutadores de del área dorsal.
+	2. **Reconstrucción del grafo del área dorsal:** Con esos LSP, un EBA para cada área no dorsal reconstruye la topología completa del área dorsal.
+	3. **Ejecutar Dijkstra por un EBA de cada área no dorsal:** para cada área no dorsal A, un EBA R de esa área ejecuta Dijkstra para cada EBA de A sobre el grafo del área dorsal, obteniendo los árboles de caminos mínimos hacia los EBA de las demás áreas no dorsales.
+	4. **Construcción del paquete de resumen del área dorsal:** Usando los arboles de caminos mínimos de los EBA de A, el EBA que los calculó, construye el paquete de estado de enlace de resumen del área dorsal, que contiene los costos mínimos desde cada EBA de A hacia EBA de las otras áreas.
+	![[Pasted image 20260521152648.png]]
+
+### Pasos del protocolo 
+1. **Construcción de los paquetes de estado de enlace:** cada enrutador construye los diferentes tipos de LSP según corresponda:
+	   • retardos a vecinos,
+	   • resúmenes de áreas no dorsales,
+	   • resúmenes del área dorsal,(los pasos para cada tipo ya fueron detallados).
+2. **Inundación de resúmenes de áreas:** Para cada área no dorsal A, el EBA de A que construyó el paquete de resumen de A lo inunda hacia el área dorsal y hacia las demás áreas.
+3. **Inundación de resúmenes del área dorsal:** Para cada área A, el EBA que construyó el resumen del área dorsal inicia la inundación dentro del área A de ese paquete del resumen del área dorsal.
+4. **Construcción del grafo de la red:**
+   • Cada enrutador interno de un área A construye su grafo global.
+   • Cada enrutador interno del área dorsal construye su grafo global.
+   • Cada EBA R de un área A construye su grafo global.
+   • Como se construye cada grafo global fue explicado anteriormente.
+5. **Ejecución del algoritmo de Dijkstra modificado:** Cada enrutador R ejecuta el algoritmo de Dijkstra modificado obteniendo su grafo de caminos mínimos de R hacia los demás enrutadores.
+6. **Construcción de la tabla de reenvío:** A partir del grafo de caminos mínimos, cada enrutador R construye su tabla de reenvío.
+
+**Base de datos de estado de enlace (BDEE)**
+	Cada enrutador mantiene una BDEE que contiene todos los LSP que ha recibido. La BDEE debe ser creada al iniciar el enrutador, y luego mantenerse actualizada.  Dentro de un área todos los enrutadores deben tener la misma BDEE, para construir misma visión del grafo y, por lo tanto, tablas de reenvío coherentes.
+	• Consecuencias de tener una BDEE:
+		o La BDEE almacena información que un enrutador puede intercambiar con sus vecinos.
+		o La BDEE se actualiza cuando el enrutador recibe LSP más nuevos que los que ya tiene.
+
+### Sincronización de dos enrutadores adyacentes
+Ya sabemos qué información debe circular. El siguiente desafío es cómo hacerla circular  correctamente. A diferencia del Bloque 2, OSPF usa un único mecanismo de inundación con ámbitos distintos y requiere sincronización entre enrutadores adyacentes para mantener coherencia.
+• La inundación del protocolo opera mediante intercambio de información de estado de enlace entre enrutadores adyacentes.
+• Esto lleva a la pregunta:
+**¿Qué tipos de paquetes se necesitan para intercambiar información entre enrutadores adyacentes?** 
+- **Paquete de descripción de base de datos (PDBD):**
+   Contiene un resumen de todos los LSP que el enrutador emisor contiene en su BDEE.
+    En resumen incluye:
+	    o El enrutador emisor y número de secuencia del LSP,
+	    o y, si el emisor es un EBA, también el tipo de LSP (porque un EBA genera varios tipos).
+	El receptor compara estos números de secuencia con los de su propia BDEE para determinar qué LSP faltan o están desactualizados.
+- **Paquete de pedido de estado de enlace (PPEE):** Se usan para solicitar LSP específicos que el receptor necesita, según lo que detectó al analizar el PDBD. 
+- **Paquete de actualización de estado de enlace (PAEE):** se usa para mandar LSP asociado al enrutador emisor que le fue solicitado.
+- **Paquete de confirmación de estado de enlace (PCEE):** se usa para confirmar la recepción de un PAEE. Es para garantizar que la inundación es confiable y que no se pierden LSP.
+**¿Cómo sincronizan sus BDEE dos enrutadores adyacentes?**
+	Dos enrutadores vecinos deben sincronizar sus BDEE para asegurarse que ambos tienen exactamente la misma información de estado de enlace.
+		o Para coordinar el proceso uno de los vecinos actúa como maestro y el otro como esclavo.
+		o El maestro controla el intercambio de los PDBD.
+		o Durante la sincronización, los vecinos intercambian los siguientes tipos de paquete en el orden:
+			•PDBD: resumen de los LSP que cada uno tiene.
+			• PPEE: pedidos de LSP que faltan o están desactualizados.
+			• PAEE: actualizaciones que contienen los LSP completos.
+			• PCEE: confirmaciones de recepción de los PAEE.
+
+
+**Problema:** en una LAN de enrutadores, sería muy ineficiente que cada enrutador intercambie mensajes de estado de enlace con todos los demás enrutadores de la LAN. Esto implica demasiadas sincronizaciones y demasiados paquetes.
+	o ¿Cómo evitar todo este trabajo? Elegir un **enrutador designado (DR)**
+	o El DR es el punto central de sincronización: es el enrutador con el que todos los demás
+	enrutadores de la LAN intercambian y sincronizan sud BDEE. De esta manera no se necesita que cada par de enrutadores se sincronice entre sí.
+	o El DR se encarga de recibir y distribuir la información de estado de enlace dentro de la LAN y reduce la complejidad de cuadrática a lineal en cantidad de sincronizaciones.
+
+¿Cuándo se inicia una sincronización nueva entre enrutadores adyacentes?
+	o Cuando un enrutador arranca.
+	o Cuando un enrutador detecta un nuevo vecino.
+	o Cuando un enlace vuelve a estar activo.
+	o Cuando cambia el enrutador designado en una LAN de enrutadores
+	o Cuando un vecino se reinicia.
+	• En OSPF no hay un orden global de sincronización: cada adyacencia se sincroniza cuando se forma.
+
+**¿cómo se propaga la sincronización por el área?**
+	o La sincronización se propaga como una ola, pero no desde un único origen.
+	o La sincronización global del área emerge de:
+		• sincronizaciones locales entre vecinos y
+		• inundación confiable de LSPs.
+		• No existe un árbol de sincronización, ni un coordinador	del área. La coherencia aparece como efecto emergente del diseño.
+
+**¿Hace falta hacer sincronización periódica del área?**
+	No es necesario porque la coherencia se mantiene mediante:
+	o Sincronización puntual entre vecinos al formarse la adyacencia,
+	o Inundación confiable de los LSP (cuando llega uno más nuevo se
+	propaga),
+	o Refresco periódico de los LSP (cada 30 minutos):
+		• los LSP viejos expiran,
+		• los LSP se regeneran y
+		• la red se resincroniza suavemente (esto es un mantenimiento; no
+		sincronización global)
+	o Sincronización automática cuando un enrutador arranca o cambia
+	de rol
+
+### Mecanismo de inundación 
+A diferencia del protocolo de enrutamiento en redes de regiones, aquí no se usan múltiples mecanismos de inundación separados, sino un único mecanismo de inundación, pero cada clase de LSP tiene un ámbito que determina hasta dónde se propaga.
+Cada tipo de LSP tiene un alcance diferente, y eso puede dar la impresión de que existen múltiples inundaciones, pero en realidad es el mismo algoritmo aplicado a distintos ámbitos.
+	o Para LSP de retardo a vecinos el ámbito es dentro del área donde se originan.
+	o Para LSP de resumen de área no dorsal A: el ámbito es el área dorsal y las otras áreas.
+	o Para LSP de resumen de área dorsal el ámbito es el área del EBA que creó ese resumen.
+
+**¿Se inundan primero los LSP de retardos a los vecinos y después los resúmenes?**
+Cada enrutador origina LSP cuando corresponde, y cada LSP se inunda según su ámbito sin un orden global rígido. Pero conceptualmente, para entender el proceso se lo
+puede pensar así:
+	o Dentro de cada área primero se inundan los LSP de retardos a vecinos. Esto permite reconstruir la topología interna.
+	o Luego, los EBA calculan los resúmenes de área (no dorsal y dorsal) y esos resúmenes se inundan donde corresponde, según su ámbito.
+
+**Aplicación del algoritmo de Dijkstra**
+Para un enrutador R de la red se puede ejecutar el algoritmo de Dijkstra sobre el grafo de la red construido por R. Para obtener dicho grafo usar la BDEE de R. Dijkstra calcula mediante un árbol el camino más corto desde R a cualquier otro nodo en el grafo.
+
+• Sin embargo, ahora aparece una novedad: un enrutador puede tener varios caminos mínimos simultáneos hacia un destino. Necesitamos entonces una versión modificada de Dijkstra que preserve todos los predecesores mínimos.
+• Queremos recordar el conjunto de caminos más cortos entre dos nodos y durante el envío de paquetes que el tráfico se divida entre ellos. Problema: **¿Cómo es un algoritmo adecuado para ello?**
+
+Se puede modificar el algoritmo de Dijkstra:
+	o No cambia la lógica del algoritmo,
+	o Sólo cambia qué información que se guarda durante la ejecución.
+	o En vez de guardar un único predecesor por nodo, se guardan todos los predecesores que dan lugar a un costo mínimo.
+	o Esto convierte el resultado en un grafo acíclico de caminos mínimos y no un árbol.
+
+![[Pasted image 20260521173729.png]]
+
+Con el DAG de caminos mínimos, podemos finalmente construir la tabla de reenvío. A diferencia del Bloque 2, ahora un destino puede tener varios nexthops válidos. Veamos cómo se deriva esa tabla.
+
+Construcción de la tabla de reenvío para un enrutador R. El enrutador R toma el grafo preds producido por Dijkstra modificado ejecutado por R. Este grafo contiene para cada destino d, todos los predecesores que llevan a un camino de costo mínimo.
+
+Para un destino d:
+1. Se consideran todos los predecesores de d en preds.
+2. Para cada uno de esos predecesores, se sube recursivamente por los predecesores de preds hasta llegar a nodos que son vecinos directos de R.
+3. Todos los vecinos directos de R alcanzados por algún camino mínimo se convierten en líneas de salida en la tabla de reenvío para el destino d.  En otras palabras: Para cada destino d, las líneas de salida de R son todos los vecinos de R que aparecen enalgún camino desde R hasta d en el grafo preds.
+![[Pasted image 20260521173908.png]]
+
