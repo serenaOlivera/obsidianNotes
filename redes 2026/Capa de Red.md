@@ -207,3 +207,4 @@ En conjunto, recorrimos cómo cada solución surge como respuesta al límite del
 
 ## [[Algoritmos de enrutamiento para WANs no jerárquicas]]
 ## [[Algoritmos de enrutamiento para WANs jerárquicas]]
+## [[Organización y reenvío para interredes]]
