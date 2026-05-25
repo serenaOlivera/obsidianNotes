@@ -1,7 +1,7 @@
 TCP es el protocolo de transporte más usado en internet. Garantiza que los datos lleguen completos, en orden y sin errores, incluso cuando la red debajo (IP) no lo garantiza.
 
 Modelo de servicio:
-- Flujo de bytes confiable (stream): la aplicación ve una 'tubería' contpinua de bytes entre origen y destino
+- Flujo de bytes confiable (stream): la aplicación ve una 'tubería' contínua de bytes entre origen y destino
 - Adaptativo: ajusta velocidad y retransmisiones según las condiciones de la red en tiempo real.
 Entidad TCP (ETCP) : software en cada host que implementa TCP (generalmente en el kernel del SO)
 
@@ -22,7 +22,7 @@ TCP se hace cargo de todas las responsabilidades de la capa de transporte.
 - Cada segmento se envía dentro de un datagrama IP independiente.
 
 **Flujo completo (de punta a punta):**
-App origen -> ETCP fragmenta -> IP encapsula -> red transporta -> ETCP destino en reensambla-> App destino
+App origen -> ETCP fragmenta -> IP encapsula -> red transporta -> ETCP destino en reensambla---> App destino
 La app destino recibe el mismo flujo de bytes, como si estuviera conectada directamente.
 
 ## Sockets y conexiones
@@ -31,7 +31,7 @@ Para usar TCP, tanto el cliente como el servidor crean sockets (puntos de acceso
 Se debe establecer una conexión explícita entre un socket emisor y uno receptor. Un mismo socket puede tener múltiples conexiones simultáneas. Cada conexión se identifica por el par: (socket_origen, socket_destino)
 
 ## Números de secuencia y segmentos
-Cada byte del flujo de datos tiene su propio número de secuencia de 32 bits. Esro impone un límite teórico al tamaño del flujo 2^(32) = 4 GB
+Cada byte del flujo de datos tiene su propio número de secuencia de 32 bits. Esto impone un límite teórico al tamaño del flujo 2^(32) = 4 GB
 
 Los números de secuencia permiten al receptor enviar confirmaciones de recepción (ACK) precisas. Permiten detectar datos faltantes, duplicados y desordenados.
 
@@ -44,7 +44,7 @@ El tamaño máximo de segmento (MSS) es el menor entre el límite IP y la MTU de
 En ethernet: MSS típico ~ 1460 bytes (1500-20 IP -20 TCP)
 
 ## Temporizadores y retransmisiones
-La capa de red (IP) no garantiza que los datagramas se entregarán, ni que llegarán correctamente.
+La capa de red (IP) no garantiza que los datagramas (paquetes) se entregarán, ni que llegarán correctamente.
 Solución: 
 - Si un segmento llega correctamente -> el receptor envía un ACK (confirmación)
 - Si el temporizador expira sin recibir ACK -> TCP retransmite el segmento.
@@ -58,7 +58,7 @@ Solución de TCP: usa los números de secuencia para reensamblar los segmentos e
 Funciona de la siguiente manera: 
 1. Al enviar un segmento, el emisor inicia un temporizador.
 2. Al llegar al destino, la ETCP receptora responde con un segmento que contiene el número de confirmación (ACK number).
-    El ACK number = siguiente número de secuencia que espera recibir. El ACK puede ir acompañado de datos (si hay algo para enviar en el sentido inverso, en una comunicación bi-direccional).
+    **El ACK number = siguiente número de secuencia que espera recibir.** El ACK puede ir acompañado de datos (si hay algo para enviar en el sentido inverso, en una comunicación bi-direccional).
 3. Si el temporizador expira antes de recibir el ACK → el emisor retransmite el segmento
 
 ### Desafíos del orden y retransmisión 
@@ -70,15 +70,15 @@ Funciona de la siguiente manera:
     Si un segmento tarda más que el temporizador, TCP lo retransmite (posiblemente de forma innecesaria si el original aún está en tránsito).
     **Solución:** el receptor descarta duplicados usando los números de secuencia (ya tiene esos bytes → los ignora).
 
-¿Qué pasa al retransmitir un segmento?
-	Las retransmisiones pueden incluir rangos de bytes diferentes al segmento original.
-	
-¿Por qué?
-	Al momento de retransmitir, la aplicación puede haber agregado nuevos datos al búfer de envío. TCP puede combinar los bytes pendientes en un nuevo segmento de tamaño diferente. **Consecuencia para el receptor:**	 El receptor no puede asumir que los segmentos llegan con los mismos rangos que fueron enviados originalmente. Debe llevar un control byte a byte de qué bytes se recibieron correctamente.
+
+> [!question]- ¿Qué pasa al retransmitir un segmento?
+> Las retransmisiones pueden incluir rangos de bytes diferentes al segmento original.
+>>[!question]- ¿Por qué?
+>>Al momento de retransmitir, la aplicación puede haber agregado nuevos datos al búfer de envío. TCP puede combinar los bytes pendientes en un nuevo segmento de tamaño diferente. **Consecuencia para el receptor:**	 El receptor no puede asumir que los segmentos llegan con los mismos rangos que fueron enviados originalmente. Debe llevar un control byte a byte de qué bytes se recibieron correctamente.
 
 ## Estructura del encabezado
 Todo segmento TCP tiene tres partes:
-1. Encabezado fijo — 20 bytes. Contiene puertos, números de secuencia/ACK, flags y control de flujo.
+1. Encabezado fijo — 20 bytes. Contiene puertos, números de secuencia/ACK, flags y control de flujo. (fijate que son las primeras 5 filas del cuadro 5 * 32bits = 160 bits /8= 20 bytes)
 2. Opciones — Longitud variable (en palabras de 32 bits). Negocian parámetros como MSS.
 3. Datos — Opcionales. Un segmento puede ser solo encabezado (ej.: un ACK puro).
 ### Estructura del encabezado
@@ -90,11 +90,12 @@ Partes del cuadro explicadas:
 - **Puerto de origen y puerto de destino**
   Cada uno ocupa 16 bits (valores de 0 a 65.535). Puertos conocidos: 80 (HTTP), 443 (HTTPS), 22 (SSH), 25 (SMTP). 
   IP + puerto = socket (punto terminal único de 48 bits que identifica un proceso en un host).
-  El par (socket_origen, socket_destino) identifica de forma única cada conexión TCP.
+  **El par (socket_origen, socket_destino) identifica de forma única cada conexión TCP.**
 - **Número de secuencia (32 bits)** 
   Identifica la posición del primer byte de datos del segmento dentro del flujo de bytes total. Ej.: si el flujo empieza en byte 0 y un segmento contiene los bytes 1000-1499, su número de secuencia es 1000.
 - **Número de confirmación (ACK number, 32 bits)**
    Indica el siguiente byte que el receptor espera recibir.• Ej.: si recibió correctamente hasta el byte 1499, el ACK number será 1500. Confirma implícitamente todos los bytes anteriores (ACK acumulativo).
+   
    Flag ACK (1 bit en el encabezado)
    - Si ACK = 1: el campo «número de confirmación» es válido → el segmento confirma datos recibidos.
    - Si ACK = 0: el campo se ignora → no hay confirmación en este segmento.
@@ -109,9 +110,9 @@ Partes del cuadro explicadas:
   • SACK: confirmaciones selectivas (confirmar bloques no contiguos). Máximo espacio para opciones: 40 bytes (60 - 20 del encabezado fijo).
 
 - **Flags del encabezado:**
-  URG (Urgent): Indica que el segmento contiene datos urgentes que deben procesarse de inmediato. le campo Urgent Pointer acompaña este indicador y señala la posición en el flujo de datos donde terminan los datos urgentes.
+  URG (Urgent): Indica que el segmento contiene datos urgentes que deben procesarse de inmediato. El campo Urgent Pointer acompaña este indicador y señala la posición en el flujo de datos donde terminan los datos urgentes.
   PSH (Push): Sirve para pedir al receptor que procese y entregue los datos inmediatamente al nivel superior(aplicación) en lugar de esperar a completar el buffer. Esto se usa en escenarios donde la inmediatez es clave.
-  RST (Reset): Se utiliza para reiniciar una conexión. Se puede enviar, por ejemplo, cuando hay un error crítico en la comunicación o se quiere rechazar una conexió no deseada.
+  RST (Reset): Se utiliza para reiniciar una conexión. Se puede enviar, por ejemplo, cuando hay un error crítico en la comunicación o se quiere rechazar una conexión no deseada.
   Urgent Pointer: Complementa el indicadorURG. Su propósito es especificar la ubicación del último byte de datos urgentes dentro del segmento.
   CWR(Congestion Window Reduced) y ECE (Explicit Congestion Notification Echo): Relacionados con el manejo de congestión en la red. CWR inidca que el transmisor ha reducido su ventana de congestión. ECE señala que el recptor ha detectado congestión a través de notificaciones explícitas.
 

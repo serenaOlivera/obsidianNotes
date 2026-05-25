@@ -26,12 +26,26 @@ Los segmentos se encapsulan en paquetes (CR) y luego en tramas (capa de enlace).
 
 Confirmaciones de recepción (ACK): el receptor notifica al emisor que los datos llegaron bien. 
 ¿Qué se confirma? Tanto paquetes de datos como paquetes de control (ej: establecimiento de conexión)
+### Paquete
+Un **paquete** es una **unidad de datos** que viaja por la red.
+- Pertenece a la **Capa de Red** (por ejemplo, IP).
+- Tiene:
+    - **Cabecera** (dirección origen/destino, TTL, etc.)
+    - **Datos**    
+- Es lo que los routers reenvían.
+### Segmento
 
+- Pertenece a la **Capa de Transporte** (TCP o UDP).
+- Es la unidad de datos que maneja el protocolo de transporte.
+- Contiene:
+    - Cabecera de transporte (puertos, número de secuencia, etc.)
+    - Datos de la aplicación.
+En TCP se llama **segmento** En UDP muchas veces se dice **datagrama UDP**
 
 ## [[TCP]]
 
 ## Direccionamiento
-Problema: El direccionamiento explícito de los destionos.
+Problema: El direccionamiento explícito de los destinos.
 ¿Cómo hacer para que un proceso servidor adecuado atienda a las necesidades de una máquina cliente?
 
 Consideraremos los siguientes casos
@@ -51,7 +65,7 @@ Asumir que los procesos servidores están activos
 ### Caso 2: Servidor inactivo -> Protocolo Inicial de Conexión
 Problema: El cliente conoce al proceso servidor adecuado, pero este se encuentra inactivo y no puede responder a solicitudes. El servidor existe en la máquina remota, pero su proceso no está corriendo en ese momento, entoces se necesita un mecanismo para activar al servidor bajo demanda cuando llega una solicitud.
 
- **Solución:** Usar un servidor de procesos (protocolo inicial de conexión), un intermediario que activa servidores inactivos cuando se los necesita.
+ **Solución:** Usar un **servidor de procesos** (protocolo inicial de conexión), un intermediario que activa servidores inactivos cuando se los necesita.
  - El servidor de procesos escucha en los puertos de servidores de menor uso que están inactivos.
  - Cuando recibe una solicitud, genera (fork) el servidor correspondiente y le transfiere la conexión del cliente.
  Pasos detallados (con cuadro al final):
@@ -94,7 +108,7 @@ Problema: Si cada servicio tiene su propio demonio ejecutándose permanentemente
 
 ## Entrega confiable
 
-La CR puede perder paquetes (drop por bufer leno o en la capa de enlace, perdidos por errores del canal), duplicarlos o entregarlos fuera de orden. La CT debe (o puede) solucionar esto y es responsable de garantizar (o no) entrega efectiva de los segmentos al host destino, y entrega ordenada: que los datos lleguen en el mismo orden en que fueron enviados por la capa de aplicación.
+La CR puede perder paquetes (drop por bufer lleno o en la capa de enlace, perdidos por errores del canal), duplicarlos o entregarlos fuera de orden. La CT debe (o puede) solucionar esto y es responsable de garantizar (o no) entrega efectiva de los segmentos al host destino, y entrega ordenada: que los datos lleguen en el mismo orden en que fueron enviados por la capa de aplicación.
 
 Esto se logra mediante mecanismos como números de secuencia, ACKs y temporizadores 
 (fijarse como copiar esto con lo de abajo)
@@ -132,6 +146,8 @@ Si usamos parada y espera con alta latencia, el emisor pasa la mayor parte del t
 
 [[Protocolo de Tubería (CT)]]
 
+# **Hasta acá entró el primer parcial de CT (fijarse en CR tmb)**
+
 ## [[Control de flujo (CT)]]
 ## [[Control de Congestión (CT)]]
 ## Duplicados Retrasados
@@ -139,7 +155,7 @@ No se pueden entregar segmentos duplicados a la capa de aplicación. Como consec
 
 La manera de detectar duplicados eficientemente es a través de **números de secuencia**:
 - Numerar cada segmento con un n° de secuencia.
-- Dos segmentos con n° distinto son distintos 
+- Dos segmentos con n° distinto, son distintos 
 Esto funcionaría perfecto si los números fueran de tamaño arbitrario, pero el espacio de secuencia es finito.
 ¿Porqué?
 	Los segmentos tienen longitud máxima, el n° de secuencia debe entrar en el campo del encabezado. Este campo tiene longitud fija, sólo hay un número finito de valores posibles.

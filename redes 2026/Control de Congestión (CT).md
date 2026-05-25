@@ -19,7 +19,7 @@ TCP mide, detecta y reacciona:
 - Reacciona:
   Cuando detecta congestión, el emisor reduce el tamaño de la VC para enviar menos datos y aliviar la red.
 
-Ventana de congestión: Bytes que el emisor puede tener en la red si haber recibido ACK todavía. También se le llama **cwnd** (congestion window)
+Ventana de congestión: Bytes que el emisor puede tener en la red sin haber recibido ACK todavía. También se le llama **cwnd** (congestion window)
 
 #### ¿Cómo detecta TCP la congestión?
 TCP infiere la congestión a partir de la pérdida de paquetes. Cuando expira el temporizador de retransmisión, el paquete probablemente se perdió. ¿Porqué? Hay dos posibles causas:
@@ -48,11 +48,11 @@ VC <- VC + n segmentos
 ```
 cuando la VC es de n segmentos y los n ACK llegan a tiempo, se agregan n STM a la VC. Resultado: duplicación por RTT.
 
-Si hay tiempo
+Si hay timeout
 ```
 VC <- VC/2
 ```
-La VC se recorta ala mitad y no se enviarán ráfagas mayores a ese nuevo valor. Es la primera forma de reaccionar a la congestión 
+La VC se recorta a la mitad y no se enviarán ráfagas mayores a ese nuevo valor. Es la primera forma de reaccionar a la congestión 
 
 ### Ejercicio
 ![[Pasted image 20260501121227.png]]
@@ -68,7 +68,7 @@ Observación clave: los ACK que llegan al emisor traen información útil aún c
 - El ACK siempre indica el próximo byte en orden recibido.
 - Eso significa que el emisor puede oír la pérdida vía los ACKs duplicados sin esperar a que expire el temporizador.
 
-![[Pasted image 20260501124302.png]]
+![[Pasted image 20260525104831.png]]
 
 pero ojo **no todo ACK duplicado implica pérdida**.
 Los paquetes también pueden llegar desordenados y disparar ACKs duplicados espurios.
@@ -81,7 +81,7 @@ Entonces contamos los ACKS....![[Pasted image 20260501125017.png]]
 
 ## TCP Tahoe
 Tahoe Combina arranque lento con un umbral que divide las fases de crecimiento.
-Idea nueva: el umbral (SSHTHRESH- slow start threshold).
+Idea nueva: el umbral (SSTHRESH- slow start threshold).
 - Debajo del umbral: arranque lento
   La VC se duplica cada RTT - crecimiento exponencial- para encontrar rápido la capacidad de la red.
 - Sobre el umbral: evitación de congestión 
@@ -124,7 +124,7 @@ Reno trata distinto a una pérdida detectada por ACKs duplicados que por un time
 **3 ACKs duplicados** (la red sigue andando)
 	 Están llegando paquetes posteriores: la red entrega, hay congestión pero no colapso. Acción: Salta el arranque lento y entra en recuperación rápida.
 
-Tahoe y Reno son iguale sal inicio de la conexión y ante timeouts. Difieren solo ante 3 ACKs duplicados.
+Tahoe y Reno son iguales al inicio de la conexión y ante timeouts. Difieren solo ante 3 ACKs duplicados.
 
 | Evento&nbsp;             | TCP Tahoe                            | TCP Reno                                                                                                               |
 |:-------------------------|:-------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|
@@ -143,7 +143,7 @@ El problema de detectar congestión sólo con pérdidas es que, antes de que hay
 - El RTT aumenta
 - Se acumula delay
 
-Las señales basadas en delay, permiten usar el aumento del RTT como indicador temprano.]
+Las señales basadas en delay, permiten usar el aumento del RTT como indicador temprano.
 RTT esperado (sin cola)
 RTT medido (con cola)
 Si RTT es mayor, entonces hay cola y entonces hay congestión.

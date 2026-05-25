@@ -33,7 +33,7 @@ Sumado a las situaciones de la aplicación y la red, esto puede producir desbord
 
 Porque la capa de enlace sólo ve el salto vecino. Controla el flujo entre dos nodos físicamente conectados. No sabe si la aplicación lee lenta, si hay muchas conexiones abiertas, si hubo reordenamiento de paquetes.
 
-En cambio, la capa de transporte ve todo el camino extremo a extremo. Es la única que puede reaccionar a los problemas (1,2 y 3). Necesito su propio protocolo para ajustar el ritmo según el receptor real y evitar que se desborden sus búferes.
+En cambio, la capa de transporte ve todo el camino extremo a extremo. Es la única que puede reaccionar a los problemas (1,2 y 3). Necesita su propio protocolo para ajustar el ritmo según el receptor real y evitar que se desborden sus búferes.
 Entonces, los protocolos de capa de enlace confiables (ack, retransmisión) no bastan para evitar el desbordamiento de búferes. Hace falta un protocolo específico de control de flujo en la capa de transporte.
 
 ### Si el receptor tiene varias conexiones abiertas, ¿Cómo reparte los búferes entre ellas?
@@ -51,7 +51,7 @@ Sabemos que:
 
 El problema es que el emisor y el recpetor saben cosas distintas: el emisor sabe cuántos datos le gustaría enviar, pero no  cuántos puede enviar realmente. Mientras que el receptor sabe cuánto espacio libre tiene pero no cuándo el emisor querrá enviar.
 
-Una posible solución es que el emisor solicite espacio de búfer al receptor y el receptor le otorga explícitamente cuánto puede usar. 
+**Una posible solución es que el emisor solicite espacio de búfer al receptor y el receptor le otorga explícitamente cuánto puede usar.** 
 El emisor solicita espacio: "sé cuántos datos quiero enviar, pido N búferes". Así evita enviar más de lo que el receptor aguanta, y evita saturar búferes y perder datos.
 El receptor, otorga lo que puede: "Según mi carga, reservo X búferes para esta conexión". Debe poder repartir búferes entre varias conexiones y ajustar dinámicamente si aumenta la carga
 Esta interacción de solicitud se llama handshake (nota añadida por mi haciendo deducción)
@@ -64,26 +64,26 @@ El emisor lleva un contador (otorgado por el receptor ), si la asignación dispo
 
 Entonces un segmento de reserva de búferes (sin datos) se pierde. El emisor sigue esperando permiso; el receptor cree haberlo otorgado. La consecuencia: ![[Pasted image 20260427101951.png]]
 
-La solución: Segmento de control periódico
+La solución: **Segmento de control periódico**
 
-Cada host envía cada cierto tiempo un segmento con el ACK acumulado y el estado actual de sus búferes. Aunque un mensaje se pierda, el siguiente segmento periódico restaurará el estado y el estancamiento
-se romperá tarde o temprano
+Cada host envía cada cierto tiempo un segmento con el ACK acumulado y el estado actual de sus búferes. Aunque un mensaje se pierda, el siguiente segmento periódico restaurará el estado y el estancamiento se romperá tarde o temprano
 
 ## Control de flujo en TCP
 TCP no obliga a implementaciones estrictas. En particular, no se requiere que:
 1. El emisor envíe al instante: No hace falta mandar datos en cuanto llegan de la aplicación.
 2. El receptor confirme al instante: Los ACK pueden agruparse y retrasarse ligeramente.
 3. El receptor entregue al instante: Los datos pueden quedarse en el búfer hasta que convenga entregarlos.
-¿Por qué importa?
-Esta flexibilidad se puede explotar para mejorar el rendimiento: agrupar segmentos pequeños, retrasar ACKs para aprovechar piggybacking,  sincronizar lecturas con el ciclo de la CPU, etc.
 
-En TCP,  Nº de secuencia = posición de byte. Los números de secuencia representan bytes dentro del flujo, no paquetes individuales. El receptor sólo puede decir: “tengo estos rangos de bytes en búfer”. Entonces necesitamos un mecanismo distinto para anunciar espacio.
+>[!¿Porqué importa?]
+>Esta flexibilidad se puede explotar para mejorar el rendimiento: agrupar segmentos pequeños, retrasar ACKs para aprovechar piggybacking,  sincronizar lecturas con el ciclo de la CPU, etc.
+
+En TCP,  **Nº de secuencia = posición de byte.** Los números de secuencia representan bytes dentro del flujo, no paquetes individuales. El receptor sólo puede decir: “tengo estos rangos de bytes en búfer”. Entonces necesitamos un mecanismo distinto para anunciar espacio.
 
 Dado que TCP identifica bytes del flujo (no paquetes), se pueden hacer dos mejoras:
 1. **No se guardan las cabeceras:**
    En el esquema anterior, el receptor almacenaba paquetes completos, con cabeceras incluidas, que ocupan espacio. En TCP: sólo se guarda el payload útil del flujo, el bufer retiene más datos útiles en el mismo espacio.
 2. **El emisor ya no pide búferes:** 
-   No necesita enviar un mensaje "pido N búferes" como en el protocolo anterior. En TCP: el recptor anuncia por iniciativa propioa cuánto espacio tiene, se elimina el primer paso del handshake.
+   No necesita enviar un mensaje "pido N búferes" como en el protocolo anterior. En TCP: el receptor anuncia por iniciativa propia cuánto espacio tiene,*se elimina el primer paso del handshake.*
 ### El búfer circular del receptor 
 Cada conexión TCP tiene, en el receptor un búfer circular de tamaño **RcvBuffer**. Cuando la app lee datos, los retira del inicio del buffer y libera espacio para datos nuevos al final. Esto es exactamente el socket recv.
 ````
@@ -107,10 +107,10 @@ Es decir, cuánto espacio queda libre en este instante.
 ![[Pasted image 20260427122436.png]]
 
 El emisor también tiene un buffer circular propio donde almacena los datos que envía. Los mantiene ahí hasta recibir el ACK, por si tiene que retransmitir.
-¿Cuánto puede enviar realmente?
 
-	bytes enviables = min (tamaño del búfer del emisor, rwnd)
-	El emisor nunca puede enviar más bytes que el menor de estos limites
+>[!question] ¿Cuánto puede enviar realmente?
+>bytes enviables = min (tamaño del búfer del emisor, rwnd)
+>El emisor nunca puede enviar más bytes que el menor de estos limites
 
 Como límite propio tiene a su búfer: no tiene sentido enviar más de lo que cabe en su propia memoria esperando confirmación.
 El límite del receptor es el rwnd anunciado: si envía más, el receptor no podrá aceptarlo y los bytes extra se descartarán.
@@ -167,11 +167,11 @@ Solución 2: ACKs selectivos (SACK)
 ### Ventana cero
 Con rwnd =0, el emisor no puede enviar datos normales, pero hay 2 excepciones.
 1. Datos urgentes: Pueden enviarse datos marcados como urgentes ( ej: para que el usuario aborte un proceso en la máquina remota)
-2. Sonda de 1 byte: El emisor puede enviar un segmento de 1 byte apra forzar al receptor a re-anunciar el tamaño de ventana.
-¿Porqué existe la sonda? Si el aviso de ventana del receptor se pierde, el emisor podría esperar indefinidamente. La sonda de un byte evita el bloqueo irreversible forzando una nueva acrualización de rwnd.
+2. Sonda de 1 byte: El emisor puede enviar un segmento de 1 byte para forzar al receptor a re-anunciar el tamaño de ventana.
+¿Porqué existe la sonda? Si el aviso de ventana del receptor se pierde, el emisor podría esperar indefinidamente. La sonda de un byte evita el bloqueo irreversible forzando una nueva actualización de rwnd.
 
 ### Problema: la ventana de 64 KB es pequeña
-El campo Window Size de la cabecera TCP es de 16 bits, por lo que la ventana anunciada no puede superar $2^{16} -1 = 65\ 535 \ bytes (~64KB)$. En enlaces con mucho ancho de banda y mucho retardo ese máximo no alcanza para llenar el pipe. Por otro lado, cambiar el campo de 16 bits rompería compatibilidad, La solución estandar es escalar ese valor mediante una opción TCP: *Window Scale*
+El campo Window Size de la cabecera TCP es de 16 bits, por lo que la ventana anunciada no puede superar $2^{16} -1 = 65\ 535 \ bytes (~64KB)$. En enlaces con mucho ancho de banda y mucho retardo ese máximo no alcanza para llenar el pipe. Por otro lado, cambiar el campo de 16 bits rompería compatibilidad, La solución estándar es escalar ese valor mediante una opción TCP: *Window Scale*
 
 Ambos extremos acuerdan un factor de escala aplicado al campo de ventana: tamaño efectivo = rwnd * 2^k
 **Cómo funciona:**
