@@ -206,5 +206,7 @@ Luego abordamos el segundo límite: el crecimiento descontrolado de las tablas d
 En conjunto, recorrimos cómo cada solución surge como respuesta al límite del modelo anterior. Desde el direccionamiento básico hasta las jerarquías avanzadas, vimos cómo la capa de red organiza el espacio y controla la complejidad para que una WAN pueda crecer sin volverse inmanejable.
 
 ## [[Algoritmos de enrutamiento para WANs no jerárquicas]]
+# **Hasta acá entro el parcial 1**
 ## [[Algoritmos de enrutamiento para WANs jerárquicas]]
 ## [[Organización y reenvío para interredes]]
+## [[Enrutamiento en interredes]]
