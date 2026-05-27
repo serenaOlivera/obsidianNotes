@@ -4,24 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "9ffbbdc02fc03ec7",
+        "id": "195db062fafa7d5f",
         "type": "tabs",
         "children": [
           {
-            "id": "af192e4aa2feb03d",
+            "id": "a9bad5acef0deec0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Enrutamiento en interredes.md",
+                "file": "Capa de Red.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Capa de Red"
+            }
+          },
+          {
+            "id": "77b239bd55ef35bd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Bloque 2- Hacia BGP desde Primeros Principios.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Enrutamiento en interredes"
+              "title": "Bloque 2- Hacia BGP desde Primeros Principios"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -186,19 +201,28 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
-  "active": "af192e4aa2feb03d",
+  "active": "77b239bd55ef35bd",
   "lastOpenFiles": [
+    "Enrutamiento en interredes.md",
+    "Capa de Red.md",
+    "Bloque 2- Hacia BGP desde Primeros Principios.md",
+    "fotos/Pasted image 20260526211226.png",
+    "fotos/Pasted image 20260526210540.png",
+    "fotos/Pasted image 20260526210525.png",
+    "fotos/Pasted image 20260526205544.png",
+    "fotos/Pasted image 20260526205528.png",
+    "fotos/Pasted image 20260526194327.png",
+    "Bloque 1- Enrutamiento basado en inundación.md",
+    "Bloque 2- Protocolos de aplicaciones de red.md",
+    "fotos/Pasted image 20260526191612.png",
+    "fotos/Pasted image 20260526160429.png",
+    "Capa de Transporte.md",
+    "Control de flujo (CT).md",
     "fotos/Pasted image 20260525124202.png",
     "fotos/Pasted image 20260525123323.png",
-    "Capa de Red.md",
     "Algoritmos de enrutamiento para WANs no jerárquicas.md",
-    "Enrutamiento en interredes.md",
     "Ejercicios (CT).md",
     "Control de Congestión (CT).md",
-    "Capa de Transporte.md",
-    "fotos/Pasted image 20260525104831.png",
-    "Control de flujo (CT).md",
-    "fotos/Pasted image 20260427101458.png",
     "Introducción.md",
     "Meta 8 - Modelo de capas de una red.md",
     "Meta 7 - Aplicaciones de red.md",
@@ -213,17 +237,7 @@
     "Protocolo de Parada y Espera (CT).md",
     "TCP.md",
     "Organización y reenvío para interredes.md",
-    "fotos/Pasted image 20260523200802.png",
-    "fotos/Pasted image 20260523200703.png",
-    "fotos/Pasted image 20260523200645.png",
-    "fotos/Pasted image 20260523200251.png",
-    "fotos/Pasted image 20260523200211.png",
-    "fotos/Pasted image 20260523195431.png",
-    "fotos/Pasted image 20260523194757.png",
     "Algoritmos de enrutamiento para WANs jerárquicas.md",
-    "PHP.md",
-    "La Web.md",
-    "Capa de Aplicación.md",
     "Sin título.base",
     "Sin título.canvas",
     "TCP",

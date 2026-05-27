@@ -1,4 +1,4 @@
-# Organización, Direccionamiento y Reenvío en WAN
+## Organización, Direccionamiento y Reenvío en WAN
 Para comprender cómo funciona una WAN y cómo se la diseña, es necesario atender tres cuestiones fundamentales:
 1. Cómo está organizada la red en términos de máquinas y sus interconexiones.
 2. Cómo se nombran esas máquinas e interfaces medante un esquema de direccionamiento y
