@@ -7,11 +7,11 @@ Por eso se usan **Redes proveedoras de contenido (CDN)** (por ejemplo: Google, M
 ## Puntos de Presencia (PoPs)
 Los POPs son nodos distribuidos que reducen latencia y evitan tránsito global. Son como servidores en distintos lugares del mundo, acercarlos a los usuarios y conectarlos a redes de acceso o regionales.
 
-Un PoP está pensado para entregar contenido a usuarios cercanos, no par generarlo ni coordinarlo. Si solo existieran los PoPs, aparecen tres problemas inevitables:
+Un PoP está pensado para entregar contenido a usuarios cercanos, no para generarlo ni coordinarlo. Si solo existieran los PoPs, aparecen tres problemas inevitables:
 - No pueden generar contenido: no tienen la infraestructura para producir, transcodificar o almacenar la versión maestra.
 - No pueden mantenerlo actualizado: cada PoP tendría que obtener actualizaciones desde algún origen remoto.
-- No pueden replicar contenido entre ellos sin pagar tránsito: si u PoP copia contenido desde otro PoP lejano, el tráfico cruza redes regionales o globales, generando altos costos y alta latencia.
-Conclusión: Los PoPs  no pueden ser el origen del contenido ni coordinar su distrubución global.
+- No pueden replicar contenido entre ellos sin pagar tránsito: si un PoP copia contenido desde otro PoP lejano, el tráfico cruza redes regionales o globales, generando altos costos y alta latencia.
+Conclusión: Los PoPs  no pueden ser el origen del contenido ni coordinar su distribución global.
 
 ¿Qué necesita un PoP para cumplir su función?
 - almacena contenido popular localmente para reducir latencia, usando una caché dentro de un PoP que guarda sólo lo más pedido.
@@ -47,23 +47,23 @@ Un centro de datos necesita:
 - Tener alta disponibilidad (fallas, redundancia, energía, clima)
 - Conectarse a una red propia que distribuya contenido sin pagar tránsito global.
 
-¿Cómo se genera y procesa contenido a  gran escala?
-	Se usa capa de procesamiento pesado con: servidores de cómputo (para análisis de contenido, generación de metadatos, validación y empaquetado), clústers de procesamiento y sistemas de transcodificación.
-La transcodificación es el proceso de convertir un contenido digital de un formato, resolución o tasa de bits a otro, para que pueda ser entregado de manera eficiente a distintos tipos de dispositivos, redes y condiicones de ancho de banda.
+>[!question] ¿Cómo se genera y procesa contenido a  gran escala?
+Se usa capa de procesamiento pesado con: servidores de cómputo (para análisis de contenido, generación de metadatos, validación y empaquetado), clústers de procesamiento y sistemas de transcodificación.
+La transcodificación es el proceso de convertir un contenido digital de un formato, resolución o tasa de bits a otro, para que pueda ser entregado de manera eficiente a distintos tipos de dispositivos, redes y condiciones de ancho de banda.
 
 ¿Cómo se mantiene una versión maestra del contenido?
 	Se usa capa de almacenamiento maestro: sistemas de almacenamiento de objetos distribuidos en varios nodos, sistemas de archivos distribuidos, bases de datos.
 
 
-¿Cómo se coordinan actualizaciones entre regiones?
-	Se usa capa de control y coordinación: 
-	- Orquestación (qué tarea va a qué máquina)
-	- Coordinación global (qué PoP recibe qué contenido)
-	- Gestión de versiones
-	- Consistencia (que los PoPs tengan lo que deben tener)
-	- Políticas de distribución (popularidad, geografía)
-	- Monitoreo y telemetría (estado de PoPs, carga, fallos)
-	- Replicación (decidir cuándo y cómo mover contenido)
+>[!question] ¿Cómo se coordinan actualizaciones entre regiones?
+Se usa capa de control y coordinación: 
+>- Orquestación (qué tarea va a qué máquina)
+>- Coordinación global (qué PoP recibe qué contenido)
+>- Gestión de versiones
+>- Consistencia (que los PoPs tengan lo que deben tener)
+>- Políticas de distribución (popularidad, geografía)
+>- Monitoreo y telemetría (estado de PoPs, carga, fallos)
+>- Replicación (decidir cuándo y cómo mover contenido)
 
 ¿Cómo se asegura disponibilidad contínua?
 - Redundancia energética

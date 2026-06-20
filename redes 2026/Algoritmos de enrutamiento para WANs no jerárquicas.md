@@ -3,7 +3,7 @@ Cómo lograr que los paquetes encuentren su camino en una red de enrutadores int
 #### Bloque 1: Problema del enrutamiento en WANs
 Si no se usan los algoritmos de enrutamiento, algunos enrutadores pueden quedar inactivos, los caminos pueden ser innecesariamente largos, se pueden sobrecargar algunas de las líneas de comunicación y los enrutadores asociados a ellas.
 
-Un algoritmo de enrutamiento es un algoritmo que escoge bien las rutas a usarse para enviar paquetes. Las rutas se determinan actualizando y llenando las tablas de reenvío. Un algoritmo de enrutamiento se ejcuta en los enrutadores de la WAN.
+Un algoritmo de enrutamiento es un algoritmo que escoge bien las rutas a usarse para enviar paquetes. Las rutas se determinan actualizando y llenando las tablas de reenvío. Un algoritmo de enrutamiento se ejecuta en los enrutadores de la WAN.
 
 ####  Bloque 2: Conceptos básicos
 ¿Cómo representar una subred como un grafo?
@@ -13,7 +13,7 @@ N = conjunto de enrutadores = {u,v,w,x,y,z}
 E= conjunto de enlaces = {(u,v), (u,x) (v,x), (v,w), (x,w), (x,y), (w,y), (w,z), (y,z)}
 
 Los arcos tienen etiquetas para el costo de atravesarlos.
-c(x, x') = costoo de enlace (x,x')
+c(x, x') = costo de enlace (x,x')
 
 Los costos de los arcos podrían calcularse como función de varios parámetros: la distancia, ancho de banda, tráfico medio, costo de comunicación, longitud media de las colas, retardo medio, y otros factores. El costo de un camino es la suma de los costos.
 
@@ -26,18 +26,18 @@ El árbol de caminos más cortos se representa con un mapeo donde para cada nodo
 
 Pasos para calcular las tablas de reenvío usando el algoritmo de Dijkstra:
 1. Construir grafo de la subred con costos
-2. Ingresar grafo de la subred ocn costos en los enrutadores
+2. Ingresar grafo de la subred con costos en los enrutadores
 3. En cada enrutador construir tabla de enrutamiento; para eso:
    a. Ejecutar algoritmos de Dijkstra en el enrutador
    b. A partir del árbol de caminos más cortos con raíz en el enrutador obtenido generar la tabla de reenvío del enrutador.
 
 ## Bloque 4: Inundación hacia un destino
 En una red sometida a fallas frecuentes, por bombardeos, catástrofes naturales o infraestructura extremadamente frágil, queremos mandar un paquete de un nodo de origen u a un destino v.
-Los algoritmos de caminos más cortos dejan de ser confiables porque suponen una topología relativamente estable. El cálculo de la ruta óptima se vuelve obsoleto en cuestión de segundos: un enlace o enrutador críitico puede caer justo después de haber sido elegido como parte del camino, dejando al paquete atrapado o descartado en una región vulnerable.
+Los algoritmos de caminos más cortos dejan de ser confiables porque suponen una topología relativamente estable. El cálculo de la ruta óptima se vuelve obsoleto en cuestión de segundos: un enlace o enrutador crítico puede caer justo después de haber sido elegido como parte del camino, dejando al paquete atrapado o descartado en una región vulnerable.
 
-La meta aquí es maximizar la probabiidad de netrega de un paquete a un destino específico, incluso cuando la topología cambia cuando el paquete está en tránsito.
+La meta aquí es maximizar la probabilidad de entrega de un paquete a un destino específico, incluso cuando la topología cambia cuando el paquete está en tránsito.
 
-Para enviar un paquete de un origen u a un destno v se respetan las siguientes reglas:
+Para enviar un paquete de un origen u a un destino v se respetan las siguientes reglas:
 - U manda el mensaje por todas las líneas de salida
 - Cada paquete que llega a un enrutador distinto de v se reenvía por cada una de las líneas excepto aquella por la que llegó.
 **A este algoritmo se le llama inundación.**
@@ -48,7 +48,7 @@ Problemas de la inundación
 - Árbol de envío de paquetes es infinito con infinitos duplicados. Osea, se generan infinitas rutas. La causa es la presencia de ciclos en el grafo de la subred.
 Hace falta limitar un poco el proceso de inundación dado en la idea anterior para resolver el problema.
 
-¿Qué información deben lleva los paquetes que se difunden?
+¿Qué información deben llevar los paquetes que se difunden?
 	El enrutador de origen pone un número de secuencia en cada paquete que recibe de sus hosts (así se distingue entre paquetes distintos del mismo enrutador de origen)
 
 ¿Qué información debe recordar un enrutador en su registro de paquetes difundidos?
@@ -70,7 +70,7 @@ Para limitar el alcance de la inundación y hacerla más eficiente, introducirem
 Al comienzo en el enrutador de origen se inicializa el  contador de saltos del paquete y se reenvía el paquete por todos los enlacs. Cuando llega un paquete a un enrutador se decrementa el contador de saltos. Si el enrutador es el enrutador de destino: el paquete  no se difunde más, sino si el contador de saltos es cero: el paquete se descarta, sino el paquete se difunde.
 
 ## Bloque 5: Inundación de difusión
-En este bloque cambiamos de objetivo: ya no queremos llegar a un destino único, sino difundir un mensaje a todos los enrutadores de la red, los algoritmos de caminos más cortos se vuelvn conceptualmente inapropiados: están diseñados para optimizar un trayecto pnto a punto, no para garantizar cobertura total.
+En este bloque cambiamos de objetivo: ya no queremos llegar a un destino único, sino difundir un mensaje a todos los enrutadores de la red, los algoritmos de caminos más cortos se vuelven conceptualmente inapropiados: están diseñados para optimizar un trayecto punto a punto, no para garantizar cobertura total.
 La meta aquí es la entrega del paquete a los nodos sin necesidad de precomputar rutas óptimas.
 Vamos a considerar inundación de difusión con registro de paquetes difundidos. El registro de paquetes difundidos es la misma estructura de datos de antes
 ![[Pasted image 20260419183330.png]]
@@ -85,8 +85,7 @@ Si el enrutador de origen no está en la tabla:
 	- Si el numero de secuencia está en la lista o tiene el valor del contador: se descarta el paquete.
 	- Sino: se agrega un nodo con el número de secuencia a la lista de números de secuencia. Luego se difunde el paquete
 
-La inundación de difusión nos permitió enviar información a todos los enrutadores, controlando duplicados y evitando ciclos, pero todavía no resuelve el problema más general: ¿cómo puede cada enrutador construir
-una visión consistente de toda la red y actualizarla cuando la topología cambia?
+La inundación de difusión nos permitió enviar información a todos los enrutadores, controlando duplicados y evitando ciclos, pero todavía no resuelve el problema más general: ¿cómo puede cada enrutador construir una visión consistente de toda la red y actualizarla cuando la topología cambia?
 
 ## Bloque 6: Enrutamiento de estado de enlace
 
@@ -132,7 +131,7 @@ Ahora vemos la distribución confiable de los LSP.
 
 ¿Cómo es la estructura de datos del registro de paquetes difundidos 
 que lleva cada enrutador? 
-	Basta con para un enrutador de origen indicar el último número de secuencia ya visto de ese enrutador de origen (este sería el LSP más reciente recibido).
+	Basta con: para un enrutador de origen indicar el último número de secuencia ya visto de ese enrutador de origen (este sería el LSP más reciente recibido).
 	
 Cuando llega un LSP a un enrutador,
 	Si es nuevo (nuevo número de secuencia mayor que los anteriores),se reenvía a través de todas las líneas, excepto aquella por la que llegó.
@@ -145,8 +144,7 @@ Cuando llega un LSP a un enrutador,
  ¿Qué elementos puede contener una fila de la tabla del búfer de LSP de un enrutador?
 	  Enrutador de origen, número de secuencia del último LSP, datos de ese LSP.
 ![[Pasted image 20260419190503.png]]
-¿Cuándo se puede crear o actualizar la tabla de enrutamiento de un
-enrutador?
+¿Cuándo se puede crear o actualizar la tabla de enrutamiento de un enrutador?
 	• una vez que el enrutador ha acumulado un grupo completo de paquetes de estado del enlace
 • ¿Qué se hace después?
 1. Usando los LSP construir el grafo de la subred completa.
@@ -158,22 +156,18 @@ todos los destinos posibles.
 
 Un protocolo real enfrenta problemas adicionales: por ejemplo, errores en números de secuencia y caída de enrutadores. Además es necesario de reducir la carga sobre la red. En la siguiente parte del bloque veremos cómo resolver estos  problemas técnicos y cómo optimizar el protocolo para hacerlo más eficiente y más robusto.
 
-**Situación:** Si llega a corromperse un número de secuencia y se escribe
-65540 en lugar de 4 (un error de un bit), los paquetes 5 a 65540 serán
-rechazados como obsoletos, dado que se piensa que el número de
-secuencia actual es 65540.
+**Situación:** Si llega a corromperse un número de secuencia y se escribe 65540 en lugar de 4 (un error de un bit), los paquetes 5 a 65540 serán rechazados como obsoletos, dado que se piensa que el número de secuencia actual es 65540.
 	• Para protegerse contra errores en las líneas entre enrutadores se
-	puede confirmar cada LSP que se recibe. ¿Cómo funciona entonces la 	protección contra estos errores?
+	puede confirmar cada LSP que se recibe. ¿Cómo funciona entonces la protección contra estos errores?
 	o Antes de actualizarse el número de secuencia más grande, el enrutador manda una	confirmación de recepción al transmisor y luego espera una respuesta afirmativa o negativa del transmisor.
 	 En el primer caso se actualiza el número de secuencia más grande.
 	 En el segundo caso se descarta el LSP que se recibió por estar errado
 
 
-Asumir que una vez que un LSP más actualizado de un enrutador de origen llega a un enrutador, y no se lo encola para difusión inmediata, sino que se espera un tiempo breve. ¿Cómo esto cambia la manera a hacer la
-difusión?
-o En ese tiempo puede llegar desde otras líneas el mismo LSP, por lo que no va a ser necesario difundir el LSP por esas líneas.
-o También puede llegar un LSP más reciente del mismo origen, por lo que se cambia el LSP en el buffer por otro más reciente evitando así enviar un LSP que se quedó viejo.
-o Por lo tanto se puede hacer más eficiente el algoritmo de inundación.
+Asumir que una vez que un LSP más actualizado de un enrutador de origen llega a un enrutador, y no se lo encola para difusión inmediata, sino que se espera un tiempo breve. ¿Cómo esto cambia la manera a hacer la difusión?
+-  En ese tiempo puede llegar desde otras líneas el mismo LSP, por lo que no va a ser necesario difundir el LSP por esas líneas.
+-  También puede llegar un LSP más reciente del mismo origen, por lo que se cambia el LSP en el buffer por otro más reciente evitando así enviar un LSP que se quedó viejo.
+- Por lo tanto se puede hacer más eficiente el algoritmo de inundación.
 
 ¿Cómo modificar el búfer de LSPs para reflejar esta optimización?
 (recordar que además de difundir el LSP hace falta confirmarlo)

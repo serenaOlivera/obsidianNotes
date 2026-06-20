@@ -1,7 +1,7 @@
-Las aplicaciones distribuidas necesitan coordinarse, intercambiar información y entenderse entre sí, aun cuando están en máquinas distintas, usan sistemas operativos distintos, están escritas en lenguajes distintos, se ejecutan en redes heterogéneas.
+Las aplicaciones distribuidas necesitan coordinarse, intercambiar información y entenderse entre sí, aún cuando están en máquinas distintas, usan sistemas operativos distintos, están escritas en lenguajes distintos, se ejecutan en redes heterogéneas.
 La red por sí sola no resuelve cómo dos aplicaciones acuerdan qué decirse ni cómo interpretarlo.
 
-La capa de aplicación define **cómo las aplicaciones usan la red** para intercambiar información y coordinarse.Es donde se diseña la lógica de interacción entre programas distribuidos.Todo lo demás (transporte, red enlace) existe para que esta capa pueda funcionar.
+La capa de aplicación define **cómo las aplicaciones usan la red** para intercambiar información y coordinarse. Es donde se diseña la lógica de interacción entre programas distribuídos. Todo lo demás (transporte, red enlace) existe para que esta capa pueda funcionar.
 El propósito es entender cómo se construyen las aplicaciones distribuídas y porqué se diseñan así.
 
 La capa de aplicación responde a tres preguntas clave:

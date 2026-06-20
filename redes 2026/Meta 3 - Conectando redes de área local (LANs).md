@@ -37,6 +37,7 @@ En este escenario, elegir por dónde enviar un paquete deja de ser trivial, ning
 
 Hay rutas mejores que otras para ir a un destino, la mejor ruta entre dos dispositivos es la ruta más corta entre esos dispositivos (en el sentido de matemática discreta). Para llegar a esto, debemos modificar las tablas de reenvío con ese propósito. Los algoritmos que modifican esas tablas, se llaman algoritmos de enrutamiento. 
 [[Algoritmos de enrutamiento para WANs no jerárquicas]]
+[[Algoritmos de enrutamiento para WANs jerárquicas]]
 
 ## Ejemplos de redes de área amplia 
 Las WAN que usamos todos los días, como las redes de fibra hasta el hogar o las redes telefónicas, son ejemplos donde estos mecanismos se aplican a gran escala, con miles de enrutadores y múltiples tecnológicas físicas.
@@ -47,7 +48,7 @@ Las WAN que usamos todos los días, como las redes de fibra hasta el hogar o las
   - Tasas de transferencia de 100 mbps o 300 mbps
   - ![[Pasted image 20260314175940.png]]
 -  Sistema telefónico fijo (p. ej: DSL):
-  - Cada domicilio está conectado or un cable de cobre a una End office (oficina central)
+  - Cada domicilio está conectado por un cable de cobre a una End office (oficina central)
   - Toda oficina central está conectada a una Toll office
   - Toll offices con usadas para reenvío de mensasjes y están unidas por cables (de fibra óptica)
   - ![[Pasted image 20260314180126.png]]

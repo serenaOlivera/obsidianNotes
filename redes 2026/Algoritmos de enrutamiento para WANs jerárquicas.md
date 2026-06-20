@@ -2,8 +2,7 @@
 En el bloque anterior introdujimos jerarquía.. Dividir la red en regiones (de igual importancia) o áreas (con un área dorsal) no es solo una cuestión administrativa: cambia la forma en que cada enrutador percibe la WAN.
 Ya no todos los enrutadores ven todo. Cada uno ve su región o área con detalle y las demás con resúmenes cuidadosamente construidos para preservar lo esencial sin arrastrar la complejidad completa.
 
-Ahora, vamos a ver cómo se construyen esos resúmenes, cómo se propagan, qué ve cada tipo de enrutador y cómo se arma finalmente el grafo global sobre el que se ejecuta Dijkstra. Veremos que la jerarquía no es un adorno, sino una arquitectura que obliga a repensar el protocolo de estado de enlace: qué se inunda, hasta dónde, quién lo genera y cómo
-se combinan las piezas para que toda la red siga funcionando como un sistema coherente.
+Ahora, vamos a ver cómo se construyen esos resúmenes, cómo se propagan, qué ve cada tipo de enrutador y cómo se arma finalmente el grafo global sobre el que se ejecuta Dijkstra. Veremos que la jerarquía no es un adorno, sino una arquitectura que obliga a repensar el protocolo de estado de enlace: qué se inunda, hasta dónde, quién lo genera y cómo se combinan las piezas para que toda la red siga funcionando como un sistema coherente.
 
 ## Bloque 2: Enrutamiento en red de regiones
 ### Introducción
@@ -12,8 +11,7 @@ La pregunta central es: ¿Cómo adaptar el protocolo de estado de enlace para qu
 Para responderla, vamos a derivar un algoritmo que:  mantiene el estado de enlace dentro de cada región,  construye resúmenes de región para enviar a otras regiones atravesando enlaces desde un enrutador de borde a otro, y distribuye esos resúmenes entre regiones mediante inundación
 controlada, que evita bucles y limita el alcance de cada paquete.
 
-El resultado es un protocolo que permite a cada enrutador reconstruir un grafo global híbrido: detallado en su región y resumido en las demás. Sobre ese grafo ejecutará Dijkstra para obtener rutas coherentes en
-toda la WAN.
+El resultado es un protocolo que permite a cada enrutador reconstruir un grafo global híbrido: detallado en su región y resumido en las demás. Sobre ese grafo ejecutará Dijkstra para obtener rutas coherentes en toda la WAN.
 
 ### Tipos de enrutadores
 Tipos de enrutadores en una región:
@@ -43,8 +41,7 @@ Tipos de enrutadores en una región:
 		o Enrutador 2B, número de secuencia
 		o 2A, 1
 		o 2D, 1
-Ahora que entendemos qué información tiene disponible un enrutador
-dentro y fuera de su región, el siguiente paso es preguntarnos cómo sintetizar esa información. Es decir: ¿cómo convertir la topología interna de una región en un resumen que otros enrutadores puedan usar para enrutar sin conocer todos los detalles?
+Ahora que entendemos qué información tiene disponible un enrutador dentro y fuera de su región, el siguiente paso es preguntarnos cómo sintetizar esa información. Es decir: ¿cómo convertir la topología interna de una región en un resumen que otros enrutadores puedan usar para enrutar sin conocer todos los detalles?
 
  **¿Cómo sería el paquete de estado de enlace que resume una región?**
 	 • Nombre de enrutador de borde de región que construye el paquete,
@@ -54,7 +51,8 @@ dentro y fuera de su región, el siguiente paso es preguntarnos cómo sintetizar
 		 o Enrutador 5A, Seq 
 		 o {5A, 5C} con peso 2
 
-Además, un enrutador de borde necesita construir un segundo tipo de paquete de estado de enlace con los enlaces con otros enrutadores de borde con los cuales está conectado directamente. Lo llamamos LSP de enlaces externos.
+(hasta ahora tenemos 2 tipos de lsp, el q tiene un enrutador dentro de una  region, el que  resume mi region y )
+Además, un enrutador de borde necesita construir un segundo tipo de paquete de estado de enlace con los enlaces con otros enrutadores de borde con los cuales está conectado directamente. Lo llamamos **LSP de enlaces externos.**
 Ejemplo: el enrutador 3B construye el paquete de estado de enlace:
 -  3B, número de secuencia
 - 1C, 1
@@ -62,8 +60,7 @@ Ejemplo: el enrutador 3B construye el paquete de estado de enlace:
 - ![[Pasted image 20260503174827.png]]
 
 ### Fases del protocolo
-¿Cuáles serían los pasos de un protocolo de enrutamiento para una red de
-regiones?
+¿Cuáles serían los pasos de un protocolo de enrutamiento para una red de regiones?
 
 **• Fase 1: Para cada región A hacer lo siguiente:**
 1. Se ejecuta el protocolo de estado de enlace dentro de A, hasta  completar la difusión de los LSP internos.
@@ -124,17 +121,16 @@ Para un enrutador de borde construir un LSP de enlaces externos:
 **¿Cómo hacer la distribución de los LSP de enlaces externos?**
 	• Un enrutador de borde de región A que creó el LSP P inunda por difusión dentro de A el paquete P. 
 	• Los enrutadores de borde de A al recibir P lo envían por los enlaces que los conectan con otras regiones.
-	 • Cuando un enrutador de borde de una región distinta de A recibe P, inunda con difusión su región con el paquete P.
-	  • Cuando un enrutador de borde de una región distinta de A recibe P, manda por los enlaces con otras regiones el paquete P.
-	  • Una vez que los resúmenes circulan correctamente, cada  enrutador tiene piezas dispersas de información: su topología interna y los resúmenes de las demás regiones.  El paso siguiente es ensamblar esas piezas en un grafo global coherente que   represente toda la WAN desde su punto de vista.
+	 • Cuando un enrutador de borde de una región distinta de A recibe P, inunda con difusión su región con el paquete P y manda por los enlaces con otras regiones el paquete P.
+	  • Una vez que los resúmenes circulan correctamente, cada  enrutador tiene piezas dispersas de información: su topología interna y los resúmenes de las demás regiones.  El paso siguiente es ensamblar esas piezas en un grafo global coherente que  represente toda la WAN desde su punto de vista.
 
 **¿Cuándo se puede hacer la construcción del grafo de la red entera por un enrutador?**
 	Un enrutador (sea de borde o interno) sólo puede construir el grafo global de toda la red cuando:
-	- Ya recibió toods los paquetes de estado de enlace de resumen de todas las regiones donde no está.
+	- Ya recibió todos los paquetes de estado de enlace de resumen de todas las regiones donde no está.
 	- Además tiene los paquetes de estado de enlace de su región y de los enlaces externos.
 
 **¿Cómo un enrutador R construye el grafo entero de la red jerárquica?**
-	El grafo gloval de toda la red jerárquica construido por R es la unión de:
+	El grafo global de toda la red jerárquica construido por R es la unión de:
 	````
 	El grafo detallado de la región de R + 
 	grafos resumidos de todas las regiones donde no está R + Enlaces inter-regiones entre enrutadores de borde.
@@ -161,17 +157,16 @@ Vimos varios tipos de inundación:
 	 Porque cada tipo de inundación requiere una tabla que se indexa por un conjunto distinto de identificadores. No existe un índice en común que permita unificación en una sola tabla.
 
 **¿Qué otras cosas diferencian las distintas inundaciones?**
-	o Tienen alcances distintos (solo región vs entre regiones).
-	o Tienen semánticas distintas (topología interna, resumen de región).}
-	o Y requieren reglas de reenvío distintas (qué reenviar, hacia dónde reenviar, qué no reenviar
+	- Tienen alcances distintos (solo región vs entre regiones).
+	- Tienen semánticas distintas (topología interna, resumen de región).}
+	- Y requieren reglas de reenvío distintas (qué reenviar, hacia dónde reenviar, qué no reenviar
 
 ## Bloque 3: Enrutamiento en áreas interconectadas
 ### Introducción
 En este bloque damos el salto hacia un diseño real usado en Internet: OSPF.  Aquí la jerarquía ya no es simétrica: aparece un área dorsal (área 0) que actúa como eje de interconexión entre las demás áreas. Esto introduce nuevos roles, nuevas restricciones y nuevas decisiones de diseño. La pregunta que guía este bloque es:
 **¿Cómo debe modificarse el algoritmo anterior para funcionar en una jerarquía con un área dorsal y múltiples áreas no dorsales, considerando además que las tablas de reenvío apuntan a destinos que representan LAN, y se direccionan interfaces de máquinas?**
 
- El resultado es un protocolo donde cada enrutador construye un grafo global de acuerdo a su posición en la jerarquía, combinando topología detallada de áreas donde está con resúmenes bipartitos de las
-demás. Este bloque muestra cómo las ideas del Bloque 2 se transforman en un protocolo operativo, escalable y ampliamente desplegado.
+ El resultado es un protocolo donde cada enrutador construye un grafo global de acuerdo a su posición en la jerarquía, combinando topología detallada de áreas donde está con resúmenes bipartitos de las demás. Este bloque muestra cómo las ideas del Bloque 2 se transforman en un protocolo operativo, escalable y ampliamente desplegado.
 
 ### Grafos de áreas
 **¿Cómo representar un área mediante un grafo con pesos en sus arcos?**
@@ -234,11 +229,10 @@ Al evitar un grafo completo el paquete de resumen del área dorsal es mucho más
 **Paquete de estado de enlace de retardos a los vecinos**
 Los paquetes de estado de enlace de retardo a los vecinos se construyen dentro de cada área no dorsal y dentro del área dorsal. Cada enrutador R interno a un área A construye un paquete de estado de enlace que contiene los retardos (costos) hacia cada uno de sus vecinos dentro de A.
 
-La estructura del paquete es la misma que en el protocolo de estado de enlace que ya estudiamos: lista de pares de vecino y retardo a él. La diferencia de OSPF con el protocolo de estado de enlace es
-que los retardos (costos) no se estiman automáticamente, sino que son configurados por el administrador de la red.
+La estructura del paquete es la misma que en el protocolo de estado de enlace que ya estudiamos: lista de pares de vecino y retardo a él. La diferencia de OSPF con el protocolo de estado de enlace es que los retardos (costos) no se estiman automáticamente, sino que son configurados por el administrador de la red.
 
 **Pasos para construir paquete de estado de enlace de retardo a los vecinos de un enrutador R (en área dorsal o las demás áreas).**
-1. Averiguar quiénes so los vecinos:
+1. Averiguar quiénes son los vecinos:
     Cuando un enrutador se inicia, envía mensajes Hello a:  todas las líneas punto a punto, al grupo de todos los enrutadores de su LAN si está en una LAN de enrutadores.
     A partir de las respuestas R aprende quiénes son sus vecinos.
 2. Recordar que los retardos a esos vecinos fueron fijados por el administrador de red.
@@ -259,8 +253,7 @@ que los retardos (costos) no se estiman automáticamente, sino que son configura
 	![[Pasted image 20260521151345.png]]
 
 **Paquete de estado de enlace de resumen de área dorsal**
-	Para cada área no dorsal A, este paquete es construido por un EBA de A. Contiene la información necesaria para que desde un área A, se pueda alcanzar los EBA de las otras áreas a través del área
-	dorsal. En particular, para un área A, el paquete incluye para cada EBA R de A los costos mínimos para llegar desde R hacia los EBA de las demás áreas.
+	Para cada área no dorsal A, este paquete es construido por un EBA de A. Contiene la información necesaria para que desde un área A, se pueda alcanzar los EBA de las otras áreas a través del área dorsal. En particular, para un área A, el paquete incluye para cada EBA R de A los costos mínimos para llegar desde R hacia los EBA de las demás áreas.
 	En otras palabras: el paquete resume el grafo bipartito que ya estudiamos:
 		o EBA de A -> EBA de otras áreas.
 		o Donde cada arco está etiquetado con el costo mínimo entre esos EBA dentro del área dorsal.
@@ -293,7 +286,7 @@ que los retardos (costos) no se estiman automáticamente, sino que son configura
 		o La BDEE se actualiza cuando el enrutador recibe LSP más nuevos que los que ya tiene.
 
 ### Sincronización de dos enrutadores adyacentes
-Ya sabemos qué información debe circular. El siguiente desafío es cómo hacerla circular  correctamente. A diferencia del Bloque 2, OSPF usa un único mecanismo de inundación con ámbitos distintos y requiere sincronización entre enrutadores adyacentes para mantener coherencia.
+Ya sabemos qué información debe circular. El siguiente desafío es cómo hacerla circular  correctamente. A diferencia del Bloque 2, OSPF usa un único mecanismo de inundación con ámbitos distintos y requiere sincronización entre enrutadores adyacentes para mantener  coherencia.
 • La inundación del protocolo opera mediante intercambio de información de estado de enlace entre enrutadores adyacentes.
 • Esto lleva a la pregunta:
 **¿Qué tipos de paquetes se necesitan para intercambiar información entre enrutadores adyacentes?** 
@@ -359,8 +352,7 @@ Cada tipo de LSP tiene un alcance diferente, y eso puede dar la impresión de qu
 	o Para LSP de resumen de área dorsal el ámbito es el área del EBA que creó ese resumen.
 
 **¿Se inundan primero los LSP de retardos a los vecinos y después los resúmenes?**
-Cada enrutador origina LSP cuando corresponde, y cada LSP se inunda según su ámbito sin un orden global rígido. Pero conceptualmente, para entender el proceso se lo
-puede pensar así:
+Cada enrutador origina LSP cuando corresponde, y cada LSP se inunda según su ámbito sin un orden global rígido. Pero conceptualmente, para entender el proceso se lo puede pensar así:
 	o Dentro de cada área primero se inundan los LSP de retardos a vecinos. Esto permite reconstruir la topología interna.
 	o Luego, los EBA calculan los resúmenes de área (no dorsal y dorsal) y esos resúmenes se inundan donde corresponde, según su ámbito.
 

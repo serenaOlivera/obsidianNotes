@@ -1,4 +1,4 @@
-La capa de transporte (CT) provee comunicación lógica entre procesos de aplicación en diferentes hosts. Es decir, los procesos se comunican como si estuvieran directamente conectados. La capa de red (CR) sólo comunica hosts; la CT va más allá: comnica procesos.
+La capa de transporte (CT) provee comunicación lógica entre procesos de aplicación en diferentes hosts. Es decir, los procesos se comunican como si estuvieran directamente conectados. La capa de red (CR) sólo comunica hosts; la CT va más allá: comunica procesos.
 **Se implementa sólo en los sistemas finales (no en routers intermedios)**
 
 Mejora los servicios de la capa de red
@@ -111,8 +111,8 @@ Problema: Si cada servicio tiene su propio demonio ejecutándose permanentemente
 La CR puede perder paquetes (drop por bufer lleno o en la capa de enlace, perdidos por errores del canal), duplicarlos o entregarlos fuera de orden. La CT debe (o puede) solucionar esto y es responsable de garantizar (o no) entrega efectiva de los segmentos al host destino, y entrega ordenada: que los datos lleguen en el mismo orden en que fueron enviados por la capa de aplicación.
 
 Esto se logra mediante mecanismos como números de secuencia, ACKs y temporizadores 
-(fijarse como copiar esto con lo de abajo)
-1. El emisor asigna números de secuencia a cada segmento, respetando el orden del flujod e datos.
+
+1. El emisor asigna números de secuencia a cada segmento, respetando el orden del flujo de datos.
 2. Al enviar un segmento, dispara un temporizador de retransmisión.
 3. EL receptor envía confirmaciones de recepción (ACK) por cada segmento recibido correctamente.
 4. Si el temporizador expira sin recibir ACK, el emisor retransmite el segmento.

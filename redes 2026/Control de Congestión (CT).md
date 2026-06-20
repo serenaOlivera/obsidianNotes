@@ -61,7 +61,7 @@ La VC se recorta a la mitad y no se enviarán ráfagas mayores a ese nuevo valor
 1. REACCIÓN EXCESIVA
    Cortar a la mitad puede ser demasiado, si la red puede soportar más que la mitad de la VC actual, se desaprovecha capacidad disponible de la subred.
 2. DETECCIÓN LENTA
-   EL timeout tarda mucho en dispararse. Hasta que expire el temporizador, el emisor no sabe que hubo pérdida y sigue inyectando paquetes con una VC mayor a lo que la red soporta, como consecuencia se agrava la congestión y la retransmisión llega tarde.
+   El timeout tarda mucho en dispararse. Hasta que expire el temporizador, el emisor no sabe que hubo pérdida y sigue inyectando paquetes con una VC mayor a lo que la red soporta, como consecuencia se agrava la congestión y la retransmisión llega tarde.
 #### ¿Cómo detectar pérdida antes del timeout?
 Observación clave: los ACK que llegan al emisor traen información útil aún cuando no confirman nuevos datos.
 - Asumimos que cada segmento que llega al receptor dispara un ACK.
@@ -126,12 +126,12 @@ Reno trata distinto a una pérdida detectada por ACKs duplicados que por un time
 
 Tahoe y Reno son iguales al inicio de la conexión y ante timeouts. Difieren solo ante 3 ACKs duplicados.
 
-| Evento&nbsp;             | TCP Tahoe                            | TCP Reno                                                                                                               |
-|:-------------------------|:-------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|
-| Inicio de conexión&nbsp; | Arranque lento                       | Arranque lento (igual)                                                                                                 |
-| Timeout                  | VC &lt;- 1 MSS, arranque lento&nbsp; | VC &lt;- 1 MSS, arranque lento (igual)                                                                                 |
-|        3 ACKs duplicados | VC &lt;- 1MSS , arranque lento       | VC &lt;- ssthresh,&nbsp;<span style="color: rgb(73, 80, 79); caret-color: rgb(73, 80, 79);">recuperación rápida</span> |
-| Después de la pérdida    | Vuelve a empezar desde 1             | Sigue enviando con la mitad de la VC                                                                                   |  
+| Evento&nbsp;             | TCP Tahoe                            | TCP Reno                                                                                                               |     |
+| :----------------------- | :----------------------------------- | :--------------------------------------------------------------------------------------------------------------------- | --- |
+| Inicio de conexión&nbsp; | Arranque lento                       | Arranque lento (igual)                                                                                                 |     |
+| Timeout                  | VC &lt;- 1 MSS, arranque lento&nbsp; | VC &lt;- 1 MSS, arranque lento (igual)                                                                                 |     |
+| 3 ACKs duplicados        | VC &lt;- 1MSS , arranque lento       | VC &lt;- ssthresh,&nbsp;<span style="color: rgb(73, 80, 79); caret-color: rgb(73, 80, 79);">recuperación rápida</span> |     |
+| Después de la pérdida    | Vuelve a empezar desde 1             | Sigue enviando con la mitad de la VC                                                                                   |     |
 ### TCP Reno en el tiempo
 ![[Pasted image 20260502171006.png]]
 Reno sigue siendo "diente de sierra" pero con dientes más chicos. Es la base de los TCP actuales.

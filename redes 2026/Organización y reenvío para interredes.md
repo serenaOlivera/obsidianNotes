@@ -1,10 +1,10 @@
 Exploraremos cómo múltiples redes —con tecnologías, tamaños de paquete, protocolos y proveedores distintos— pueden coordinarse para comportarse como una sola interred funcional, y qué mecanismos arquitectónicos permiten que el reenvío extremo a extremo sea posible incluso en la presencia de heterogeneidad.
+
 Responderemos las siguientes preguntas:
-	o ¿Qué significa realmente “interconectar redes” y qué tensiones emergen
-	cuando intentamos que sistemas distintos colaboren? (Bloque 1)
-	o ¿Cómo se resuelven incompatibilidades entre redes de distintas tecnologías	que deben intercambiar paquetes?
-	o ¿Qué tipos de mecanismos esenciales para la interoperabilidad hace falta	definir para garantizar continuidad en el servicio extremo a extremo?
-	o ¿Cómo evitar que las tablas de reenvío en una interred crezcan sin control y 	comprometan la escalabilidad del sistema?
+	-  ¿Qué significa realmente “interconectar redes” y qué tensiones emergen cuando intentamos que sistemas distintos colaboren? (Bloque 1) 
+	- ¿Cómo se resuelven incompatibilidades entre redes de distintas tecnologías que deben intercambiar paquetes?
+	- ¿Qué tipos de mecanismos esenciales para la interoperabilidad hace falta definir para garantizar continuidad en el servicio extremo a extremo?
+	- ¿Cómo evitar que las tablas de reenvío en una interred crezcan sin control y comprometan la escalabilidad del sistema?
 
 ## Bloque 1: Qué es una interred y otros conceptos básicos
 
@@ -102,9 +102,7 @@ Después de estudiar la fragmentación como estrategia para adaptar paquetes a l
 Sin embargo, en una interred real también aparecen incompatibilidades más profundas, como formatos de encabezado distintos, modelos de servicio incompatibles o incluso tecnologías que no pueden interpretar directamente los paquetes de otra red.
 En esos casos, fragmentar no alcanza. Necesitamos un mecanismo que permita transportar un paquete “tal cual es” a través de una red que no lo entiende. Ese mecanismo es el **entunelamiento**, que veremos a continuación como una forma de encapsular paquetes para que puedan atravesar tecnologías intermedias sin perder su identidad original.
 
->[!faq]- Problema: Un host de origen h1 y de destino h2 están en la misma clase de red,
-pero hay una red diferente en medio.
->  ❑ ¿Cómo hacer para mandar un paquete de h1 a h2?
+>[!faq]- Problema: Un host de origen h1 y de destino h2 están en la misma clase de red, pero hay una red diferente en medio. ¿Cómo hacer para mandar un paquete de h1 a h2?
  Solución: Usar entunelamiento
 ❑ Los paquetes son encapsulados en la red del medio usando un encabezado de ésta.
 
@@ -115,9 +113,9 @@ Veremos dos ejemplos de entunelamiento.
 
 ## Bloque 4: Tablas de reenvío en interredes 
  Después de analizar cómo se logra el reenvío entre redes heterogéneas —mediante fragmentación, entunelamiento y otros mecanismos de adaptación— estamos en condiciones de mirar un problema de otra escala: cómo se decide hacia dónde reenviar.
-	o Resolver incompatibilidades técnicas permite que un paquete pueda circular, pero la interred también necesita saber por qué camino enviarlo.
-	o A medida que crece el número de redes y prefijos, esta decisión se vuelve cada vez más costosa si no se aplican técnicas de compresión y organización del espacio de direcciones.
-	o En el próximo bloque estudiaremos cómo la agregación de prefijos y la estructuración jerárquica del direccionamiento permiten que las tablas de reenvío sigan siendo manejables incluso en interredes de gran tamaño
+	-  Resolver incompatibilidades técnicas permite que un paquete pueda circular, pero la interred también necesita saber por qué camino enviarlo.
+	- A medida que crece el número de redes y prefijos, esta decisión se vuelve cada vez más costosa si no se aplican técnicas de compresión y organización del espacio de direcciones.
+	- En el próximo bloque estudiaremos cómo la agregación de prefijos y la estructuración jerárquica del direccionamiento permiten que las tablas de reenvío sigan siendo manejables incluso en interredes de gran tamaño
 
 En este bloque exploraremos cómo una interred escala su capacidad de reenvío sin que las tablas de los enrutadores se vuelvan inmanejables.
 	o A medida que crece el número de redes, prefijos y destinos, mantener una entrada por cada LAN se vuelve impracticable.

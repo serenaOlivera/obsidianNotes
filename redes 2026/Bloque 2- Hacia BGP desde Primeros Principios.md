@@ -71,7 +71,7 @@ Superposición de grafos, no un grafo global: El PPEI mantiene la topología int
 - Para enrutamiento PPEE encontrar un camino óptimo es imposible en la práctica porque en cada WAN OSPF usa criterios diferentes para determinar costos de enlaces.
 
 ## Agregación en la puerta de enlace
-La operación clave que permite escala
+La operación clave que permite escalar
 
 La puerta de enlace aprende miles de rutas externas por medio de BGP,  aplica sus políticas y realiza agregación de prefijos de esas rutas para sintetizar varios destinos en uno más compacto. 
 
@@ -94,7 +94,7 @@ Como no se puede manejar información de caminos óptimos, ¿qué tipo informaci
 Si hay una **relación de proveedor-consumidor** en las WAN, los tipos de ruta que publica la WAN proveedor son las rutas a todos los destinos en la interred al consumidor sobre el enlace que los conecta. Así el consumidor va a tener rutas para enviar paquetes para todos lados.
 Y el tipo de rutas que publica la WAN consumidora, son rutas a los destinos en su red al proveedor. Esto permite al proveedor enviar tráfico al consumidor solo para esas direcciones.
 
-Si hay una relación de compañerismo, los SA (Sistemas Autónomos) compañeros mandan publicidad de enrutamiento de uno al otro para los destinos que residen en sus redes.
+Si hay una **relación de compañerismo,** los SA (Sistemas Autónomos) compañeros mandan publicidad de enrutamiento de uno al otro para los destinos que residen en sus redes.
 
 
 ## Función de las puertas de enlace
@@ -242,7 +242,7 @@ Con estas estructuras ya podemos: aplicar política, elegir rutas, anunciar ruta
 Guarda las rutas preparadas para enviar a cada vecino BGP. 
 Permite aplicar políticas de exportación. Se construye a partir de la Loc-RIB aplicando políticas de salida. Puede haber diferencias en las rutas anunciadas a distintos vecinos, incluso para el mismo prefijo. 
 
-#### Estructura 4:  RIB(RoutingInformation Base) 
+#### Estructura 4:  RIB(Routing Information Base) 
 Solo las rutas seleccionadas en la Loc-RIB que son mejores que las rutas existentes en la RIB se instalan en la RIB para ser usadas en el reenvío de paquetes. Las rutas de Loc-RIB se comparan con otras rutas en la RIB para decidir cuál ruta se instala para el encaminamiento. 
 >[!tip] La RIB no es parte de BGP: es parte del sistema operativo del enrutador
 

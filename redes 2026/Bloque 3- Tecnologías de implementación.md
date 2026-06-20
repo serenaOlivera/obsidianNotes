@@ -47,17 +47,16 @@ La Web es una plataforma de aplcacones de red basada en protocolos estandarizado
 - Permite interoperabilidad entre lenguajes, sistemas y dispositivos
 - Es la base de la mayoría de las aplicaciones modernas.
 
-| Criterio                            | Sockets                                                        | Web                                                              |     |
-| :---------------------------------- | :------------------------------------------------------------- | :--------------------------------------------------------------- | --- |
-| Nivel de abstracción                | Bajo: control directo sobre el envío y la recepción de datos   | Alto: el protocolo ya define estructura, significado y reglas    |     |
-| Flexibilidad                        | Muy alta: se puede diseñar cualquier protocolo propio.         | Media: se siguen reglas del protocolo HTTP y sus métodos.        |     |
-| Estructura de los mensajes          | La define el programador desde cero.                           | Ya viene estandarizada (p. ej: con métodos, encabezados, cuerpo) |     |
-| Facilidad de uso&nbsp;              | Requiere más trabajo&nbsp; cuidado con detalles                | Más simple: muchas tareas ya están resueltas.<br><br>            |     |
-| Control sobre la comunicación&nbsp; | Total: tiempos, formato, orden, flujo                          | Parcial: HTTP decide gran parte del comportamiento               |     |
-| Interoperabilidad                   | Limitada: ambos extremos debern implementar el mismo protocolo | Muy alta: cualquier navegador puede comunicarse&nbsp;<br><br>    |     |
-| Costos de desarrollo                | Más altos: hay que diseñar y mantener el protocolo.            | Más bajo: usan estándares y herramientas existentes.             |     |
-| Seguridad                           | Depende de lo que programes                                    | HTTPS resuelve cifrado y autenticación básica                    |     |
-|                                     |                                                                |                                                                  |     |
+| Criterio                            | Sockets                                                        | Web                                                              |
+| :---------------------------------- | :------------------------------------------------------------- | :--------------------------------------------------------------- |
+| Nivel de abstracción                | Bajo: control directo sobre el envío y la recepción de datos   | Alto: el protocolo ya define estructura, significado y reglas    |
+| Flexibilidad                        | Muy alta: se puede diseñar cualquier protocolo propio.         | Media: se siguen reglas del protocolo HTTP y sus métodos.        |
+| Estructura de los mensajes          | La define el programador desde cero.                           | Ya viene estandarizada (p. ej: con métodos, encabezados, cuerpo) |
+| Facilidad de uso&nbsp;              | Requiere más trabajo&nbsp; cuidado con detalles                | Más simple: muchas tareas ya están resueltas.<br><br>            |
+| Control sobre la comunicación&nbsp; | Total: tiempos, formato, orden, flujo                          | Parcial: HTTP decide gran parte del comportamiento               |
+| Interoperabilidad                   | Limitada: ambos extremos debern implementar el mismo protocolo | Muy alta: cualquier navegador puede comunicarse&nbsp;<br><br>    |
+| Costos de desarrollo                | Más altos: hay que diseñar y mantener el protocolo.            | Más bajo: usan estándares y herramientas existentes.             |
+| Seguridad                           | Depende de lo que programes                                    | HTTPS resuelve cifrado y autenticación básica                    |
 
 
 Elegir Sockets cuando:

@@ -6,7 +6,7 @@ Para distinguir los mensajes para un programa con los mensajes para otro program
 Si mandamos dos paquetes de un mismo mensaje, esos paquetes no necesariamente van a seguir la misma ruta, puede que cambien las rutas entre paquetes porque se ejecutó el algoritmo de enrutamiento .
 Si los dos paquetes de un mensaje son enviados, no necesariamente van a llegar en orden (uno puede perderse y debe ser renviado, otro puede seguir una ruta más corta), entonces pueden llegar fuera de orden.
 
-Entonces, es necesario ordenar los paquetes de un mensaje porque una aplicación de red necesita procesar el mensje completo ordenado.
+Entonces, es necesario ordenar los paquetes de un mensaje porque una aplicación de red necesita procesar el mensaje completo ordenado.
 
 
 ## Control de congestión 
@@ -30,11 +30,11 @@ Para evitar que el emisor sobrecargue al receptor, es necesario definir un mecan
 [[Control de flujo (CT)]]
 
 ## Comunicación confiable
-EL control de flujo evita que el emisor envpíe datos más rápido de lo que el receptor puede procesar, protegiendo al host de desbordes y pérdidas locales. Pero aún cuando el receptor no se satura, eso no garantiza que la comunicación sea correcta: la red puede perder, duplicar o desordenar paquetes, y los procesos necesitan mecanismos para detectar y corregir esos problemas. Por eso, además del control del flujo, es necesario un proceso que asegure una comunicación confiable entre procesos, permitiendo reconstruir los datos completos y en el orden adecuado.
+El control de flujo evita que el emisor envíe datos más rápido de lo que el receptor puede procesar, protegiendo al host de desbordes y pérdidas locales. Pero aún cuando el receptor no se satura, eso no garantiza que la comunicación sea correcta: la red puede perder, duplicar o desordenar paquetes, y los procesos necesitan mecanismos para detectar y corregir esos problemas. Por eso, además del control del flujo, es necesario un proceso que asegure una comunicación confiable entre procesos, permitiendo reconstruir los datos completos y en el orden adecuado.
 
 - Los paquetes pueden perderse por varias razones: 
   - Por congestión en los enrutadores cuando las colas se llenan;
-  - Porque el emiso envía más rápido que lo que el receptor puede procesar y este descarta paquetes
+  - Porque el emisor envía más rápido que lo que el receptor puede procesar y este descarta paquetes
   - por errores físicos o daños en los paquetes durante su transmisión 
 - Para manejar la pérdida de paquetes:
   - Los paquetes recibidos son confirmados por el receptor.

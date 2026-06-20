@@ -4,21 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "2e6a04e8da228491",
+        "id": "58e3db587216a9b5",
         "type": "tabs",
         "children": [
           {
-            "id": "463526d4eb9a6215",
+            "id": "b26e03db0a944531",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "WiFi, DCF- PCF y tasa efectiva.md",
-                "mode": "source",
+                "file": "PHP.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "WiFi, DCF- PCF y tasa efectiva"
+              "title": "PHP"
+            }
+          },
+          {
+            "id": "2ca7446ecb058838",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Resumen/Capa de Red.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Capa de Red"
             }
           }
         ]
@@ -74,12 +88,12 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "2c35328c15196965",
@@ -95,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Control de Congestión (CT).md",
+                "file": "Meta 1- Nivel físico.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes de Control de Congestión (CT)"
+              "title": "Enlaces entrantes de Meta 1- Nivel físico"
             }
           },
           {
@@ -185,8 +199,38 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
-  "active": "463526d4eb9a6215",
+  "active": "b26e03db0a944531",
   "lastOpenFiles": [
+    "La Web.md",
+    "Capa de Aplicación.md",
+    "Algoritmos de enrutamiento para WANs no jerárquicas.md",
+    "Capa de Red.md",
+    "Ejercicios (CT).md",
+    "Capa de Transporte.md",
+    "Protocolo de Tubería (CT).md",
+    "Retroceso-N.md",
+    "Protocolo de Parada y Espera (CT).md",
+    "TCP.md",
+    "PHP.md",
+    "Bloque 3- Tecnologías de implementación.md",
+    "Bloque 2- Protocolos de aplicaciones de red.md",
+    "Bloque 1- Arquitecturas de aplicaciones de red.md",
+    "Resumen/Capa de Red.md",
+    "Introducción.md",
+    "Meta 8 - Modelo de capas de una red.md",
+    "TCP-IP.md",
+    "Meta 7 - Aplicaciones de red.md",
+    "Meta 6 - Conectando procesos.md",
+    "Meta 5 - Redes proveedoras de contenido.md",
+    "Meta 4 - Conectando redes de área amplia.md",
+    "Meta 3 - Conectando redes de área local (LANs).md",
+    "Meta 2 - Conexión directa entre máquinas.md",
+    "Meta 1- Nivel físico.md",
+    "Resumen/Capa de Aplicación (R).md",
+    "fotos/Pasted image 20260406131006.png",
+    "Sin nombre",
+    "fotos/Pasted image 20260528121734.png",
+    "Resumen",
     "fotos/Pasted image 20260529143313.png",
     "fotos/Pasted image 20260529143158.png",
     "fotos/Pasted image 20260529141945.png",
@@ -195,38 +239,10 @@
     "fotos/Pasted image 20260529135431.png",
     "fotos/Pasted image 20260529135346.png",
     "fotos/Pasted image 20260529125914.png",
-    "fotos/Pasted image 20260529125820.png",
-    "fotos/Pasted image 20260529124353.png",
-    "fotos/Pasted image 20260529124334.png",
     "Sin título.base",
-    "WiFi, DCF- PCF y tasa efectiva.md",
-    "Capa de Enlace.md",
-    "WiFi, DCF/PCF y tasa efectiva.md",
     "WiFi, DCF",
-    "Tramas, acceso al medio y Ethernet.md",
     "Sin título 1.base",
     "Sin título 2.base",
-    "Meta 2 - Conexión directa entre máquinas.md",
-    "Introducción.md",
-    "Meta 7 - Aplicaciones de red.md",
-    "Meta 6 - Conectando procesos.md",
-    "Capa de Red.md",
-    "Bloque 2- Hacia BGP desde Primeros Principios.md",
-    "Enrutamiento en interredes.md",
-    "Bloque 1- Enrutamiento basado en inundación.md",
-    "Bloque 2- Protocolos de aplicaciones de red.md",
-    "Capa de Transporte.md",
-    "Control de flujo (CT).md",
-    "Algoritmos de enrutamiento para WANs no jerárquicas.md",
-    "Ejercicios (CT).md",
-    "Control de Congestión (CT).md",
-    "Meta 8 - Modelo de capas de una red.md",
-    "Meta 5 - Redes proveedoras de contenido.md",
-    "Meta 4 - Conectando redes de área amplia.md",
-    "Meta 1- Nivel físico.md",
-    "Meta 3 - Conectando redes de área local (LANs).md",
-    "Diagramas Introducción.md",
-    "Protocolo de Tubería (CT).md",
     "Sin título.canvas",
     "TCP",
     "fotos"

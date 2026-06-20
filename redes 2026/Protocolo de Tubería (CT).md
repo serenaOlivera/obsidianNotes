@@ -3,12 +3,12 @@ El RTT es mucho mayor que el tiempo de transmitir un paquete, entonces se pueden
 
 El protocolo de tubería, permite enviar múltiples paquetes sin esperar confirmación de cada uno. Mantiene el "tubo" lleno, aprovecha mejor el ancho de banda disponible . Necesita: números de secuencia más grandes, buffers y reglas de retransmisión más complejas.
 
-| Retroceso-N (Go-Back-N)                                          | Repetición Selectiva                                              |     |
-| :--------------------------------------------------------------- | :---------------------------------------------------------------- | --- |
-| Ventana de N paquetes sin confirmar                              | Ventana de N paquetes sin confirmar                               |     |
-| Si se pierde un paquete: retransmite ese y todos los siguientes. | Si se pierde un paquete: retransmite sólo ese paquete.            |     |
-| Receptor: sólo acepta paquetes en orden (ACK acumulativo)        | Receptor: acepta paquetes fuera de orden (buffer +ACK individual) |     |
-| Más simple, pero puede desperdiciar ancho de banda.              | Más eficiente, pero más complejo (buffer en recptor)              |     |
+| Retroceso-N (Go-Back-N)                                          | Repetición Selectiva                                              |
+| :--------------------------------------------------------------- | :---------------------------------------------------------------- |
+| Ventana de N paquetes sin confirmar                              | Ventana de N paquetes sin confirmar                               |
+| Si se pierde un paquete: retransmite ese y todos los siguientes. | Si se pierde un paquete: retransmite sólo ese paquete.            |
+| Receptor: sólo acepta paquetes en orden (ACK acumulativo)        | Receptor: acepta paquetes fuera de orden (buffer +ACK individual) |
+| Más simple, pero puede desperdiciar ancho de banda.              | Más eficiente, pero más complejo (buffer en recptor)              |
 
 Tubería: el emisor puede enviar múltiples paquetes al vuelo a ser confirmado. El rango de números de secuencia debe incrementarse usando palabras de más de un bit. Hay que usar búferes en el emisor.
 

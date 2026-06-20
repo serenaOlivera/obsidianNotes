@@ -10,7 +10,7 @@ TCP aborda los siguientes problemas:
 - Retransmisión de paquetes: mediante números de secuencia, ACKs y temporizadores.
 - Duración de temporizadores: algoritmos complejos para fijar tiempos de espera adaptativos.
 - Manejo de conexiones: estableces y terminar conexiones entre pares de procesos.
-- Direccionamiento: identificar procesos en hosts remotos mediante puertes 
+- Direccionamiento: identificar procesos en hosts remotos mediante puertos 
 - Control de congestión:regular la inyección de paquetes para no saturar la red.
 - Control de flujo: evitar que un emisor rápido desborde a un receptor lento.
 TCP se hace cargo de todas las responsabilidades de la capa de transporte.

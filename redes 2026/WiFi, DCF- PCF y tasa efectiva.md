@@ -347,7 +347,7 @@ retransmisiones si ocurren.
 ### Método para tasa efectiva
 1. Dibujar la línea de tiempo.
 2. Separar tramas de control y datos.
-3. Calcular duración de cada trama: bits / tasa .
+3. Calcular duración de cada trama: bits / tasa.
 4. Sumar intervalos SIFS/DIFS/PIFS dados.
 5. Definir claramente qué cuenta como datos útiles.
 6. Calcular R_eff = bits_utiles / tiempo_total 
@@ -396,7 +396,7 @@ Números:
 Dos diálogos y un DIFS entre ellos:
 T_total = 2 * 1148.1 + 128 = 2424.2 us
 Datos útiles:
-2 * 1500 B * 8 = 24000 bits
+2 * 1500  * 8 = 24000 bits
 
 #### Tasa efectiva DCF
 R_eff = 24000 bits / 0.0024242 s = 9.90 Mbit/s
@@ -425,7 +425,8 @@ Se mantienen:
 #### Duración de tramas PCF
 T_beacon = 100 * 8 / 6 Mbit/s = 133.3 us
 T_poll = 20 * 8 / 6 Mbit/s = 26.7 us
-T_ACK = 18.7 us, T_DATA = 1000 us
+T_ACK = 18.7 us, 
+T_DATA = 1000 us
 
 #### Tiempo total PCF
 Secuencia:

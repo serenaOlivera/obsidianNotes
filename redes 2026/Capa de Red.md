@@ -19,7 +19,7 @@ Hardware subyacente de la capa de red:
 - Hosts o LANs conectadas a subred.
 
 #### ¿Cómo se definen las direcciones de las máquinas?
-	 Se identifican los enrutadores. Para cada dispositivo de cómputo de un hogar u organización tenemos un rango de números de máquinas.
+	Se identifican los enrutadores. Para cada dispositivo de cómputo de un hogar u organización tenemos un rango de números de máquinas.
 
 #### ¿Cómo hacer para distinguir máquinas de distintas organizaciones?
 	 Una máquina de un hogar u organización se identifica con: (identificador de enrutador, número de máquina) (esto solo para la red plana)
@@ -71,7 +71,7 @@ Extraer la dirección de interfaz de destino del paquete entrante. Luego analiza
 El espacio de direcciones puede agotarse si cada máquina o interfaz necesita una dirección única dentro de una WAN cada vez más grande. Este problema no es teórico, ocurrió en la práctica con IPv4. Por eso, antes de pensar en cómo organizar redes enormes, necesitamos resolver primero cómo hacer que el direccionamiento mismo pueda escalar. 
 
 Tenemos dos soluciones posibles:
-1. Abandonamos el espacio de direcciones y creamos un espacio de direcciones más grande. Fue lo que se hizo con IPv4: se creó IPv con esta finalidad (En lugar de direcciones de 32 bits se usaron direcciones de 128 bits).
+1. Abandonamos el espacio de direcciones y creamos un espacio de direcciones más grande. Fue lo que se hizo con IPv4: se creó IPv6 con esta finalidad (En lugar de direcciones de 32 bits se usaron direcciones de 128 bits).
 2. Seguimos usando el mismo espacio de direcciones inteligentemente con reutilización de direcciones. Se aplicó para el caso de IPv4 para alargar el uso de espacios de direcciones. La solución se llama NAT (traducción de dirección de red natural).
 
 ### Direcciones IPv6
@@ -89,12 +89,12 @@ Ejemplo: dada la dirección 2001:0db8:85a:0000:0000:8a2e:0370:7334.
 Esquema lógico de una red IPv6:
 - Nivel de red global: 2001:db8::/32. El proveedor de servicios de red asigna un prefijo global a una organización.
 - Nivel de red interna: 2001:db8:1::/48, la organización asigna subredes dentro de ese espacio.
-- Nivel de subred: Son subredes divididas a partir dentro del prefijo interno. Pueden usarse para departamentos, por ejemplo: para el departamente A usa 2001:db8:1:1::/64. Un dispositivo final del departamento A tiene una dirección 2001:db8:1:1::100
+- Nivel de subred: Son subredes divididas a partir dentro del prefijo interno. Pueden usarse para departamentos, por ejemplo: para el departamento A usa 2001:db8:1:1::/64. Un dispositivo final del departamento A tiene una dirección 2001:db8:1:1::100
 
 
 ### NAT
 En la práctica, la transición a un nuevo esquema de direccionamiento global es lenta y costosa, y durante muchos años la demanda de nuevas máquinas siguió creciendo más rápido que la adopción de IPv6. Esto llevó a buscar una alternativa que permitiera extender la vida útil de IPv4 sin modificar su tamaño.
-Esa alternativa es NAT, un mecanismo que mantiene el mediante la reutilización interna de rangos privados. NAT no resuelv el problema de fondo, pero permite que redes enormes sigan funcionando dentro de un espacio limitado, lo que lo convierte en una solución pragmática frente a la falta de adopción inmediata de IPv6.
+Esa alternativa es NAT, un mecanismo que mantiene el mediante la reutilización interna de rangos privados. NAT no resuelve el problema de fondo, pero permite que redes enormes sigan funcionando dentro de un espacio limitado, lo que lo convierte en una solución pragmática frente a la falta de adopción inmediata de IPv6.
 
 Traducción de dirección de red natural (NAT): Asignar una sola dirección de interfaz a cada organización para el tráfico de internet.
 1. Dentro de la organización cada computadora tiene una dirección de interfaz única que se usa para el tráfico interno. O sea, estas direcciones de interfaz no se usan afuera de la LAN; solo adentro de la organización, y se repiten en distintas LAN.
@@ -105,7 +105,7 @@ Traducción de dirección de red natural (NAT): Asignar una sola dirección de i
 - 192.168.0.0   -192.168.255.255/16   (65,536 hosts)
 
 ¿Cómo hacer cuando un paquete sale de las instalaciones de la organización?
-El paquete pasa a través de una caja NAT que convierte la dirección interna de orgien de IP a la dirección de la organización 
+El paquete pasa a través de una caja NAT que convierte la dirección interna de oriden de IP a la dirección de la organización 
 ![[Pasted image 20260418195451.png]]
 
 Cada mensaje saliente contiene puertos de origen y de destino que sirven para identificar los procesos que usan la conexión en ambos extremos.
@@ -155,9 +155,9 @@ En las redes enormes, una jerarquía de dos niveles es insuficiente, entonces te
 - Incluso podemos seguir agregando más niveles.
 
 ## Bloque 4: Red Jerárquica con área dorsal 
-El modelo de regioens de igual importancia nos permitió ver cómo una jerarquía básica ayuda a reducir el tamaño de las tablas de reenvío y a limitar la visibilidad de la topología. Sin embargo, esta falta de centralidad complica la administración y el control del tráfico interregional 
+El modelo de regiones de igual importancia nos permitió ver cómo una jerarquía básica ayuda a reducir el tamaño de las tablas de reenvío y a limitar la visibilidad de la topología. Sin embargo, esta falta de centralidad complica la administración y el control del tráfico interregional 
 
-Para resolver este problema surge un aorganización más refinada: las redes divididas en áreas conectadas a un  área dorsal. Este modelo introduce un backbone que concentra la conectividad global y simplifica el tránsito entre áreas, permitiendo una WAN más modular, eficiente y escalable.
+Para resolver este problema surge una organización más refinada: las redes divididas en áreas conectadas a un  área dorsal. Este modelo introduce un backbone que concentra la conectividad global y simplifica el tránsito entre áreas, permitiendo una WAN más modular, eficiente y escalable.
 Podemos organizar una red jerárquica (WAN) en áreas donde hay un área dorsal
 ![[Pasted image 20260419133159.png]]
 Organización:
@@ -169,7 +169,7 @@ Organización:
 - Para ir de un área a otra hay que pasar por la red dorsal no es visible fuera de esta.
 - Lo mismo con la topología de un área no dorsal
 
-Las áreas se nuemeran. El área dorsal tiene número 0
+Las áreas se numeran. El área dorsal tiene número 0
 
 
 **¿Cómo se clasifican los enrutadores en una red jerárquica con área dorsal?**
@@ -180,7 +180,7 @@ Las áreas se nuemeran. El área dorsal tiene número 0
 - Enrutador de borde de área (EBA)
 	  Es parte de una red dorsal y a la vez de una o más áreas.
 - Enrutador de borde de WAN:
-	  Inyecta en el área rutas a destinos externos en otras WAN. Ya lo veremos con cuidado cuando estuidemos interredes.
+	  Inyecta en el área rutas a destinos externos en otras WAN. Ya lo veremos con cuidado cuando estudiemos interredes.
 
 **¿Cómo organizar un área?**
 	1. Las líneas punto a punto entre dos enrutadores
@@ -195,13 +195,9 @@ Se usan las tablas de reenvío de cuando se trabaja con interfaces. Recordar que
 ## Recapitulación
 En esta clase vimos cómo la capa de red enfrenta su problema central: mover paquetes eficientemente en una WAN que crece sin límites. 
 
-Comenzamos con una red plana de enrutadores para entender cómo se
-identifican máquinas, interfaces y LANs, y cómo se construyen tablas de
-reenvío básicas.Este modelo inicial mostró rápidamente sus límites: el espacio de direcciones puede agotarse y las tablas de reenvío pueden volverse demasiado grandes.
+Comenzamos con una red plana de enrutadores para entender cómo se identifican máquinas, interfaces y LANs, y cómo se construyen tablas de reenvío básicas. Este modelo inicial mostró rápidamente sus límites: el espacio de direcciones puede agotarse y las tablas de reenvío pueden volverse demasiado grandes.
 
-Para resolver el primer límite estudiamos cómo escalar el direccionamiento. Analizamos dos enfoques: ampliar el espacio de direcciones, como en IPv6, y mantener el mismo espacio pero administrarlo mejor, como hace NAT mediante la reutilización interna de
-direcciones. Esto mostró que el direccionamiento condiciona la evolución de toda la red.
-Luego abordamos el segundo límite: el crecimiento descontrolado de las tablas de reenvío. Introdujimos jerarquías para reducir la información que cada enrutador debe manejar. Primero vimos redes divididas en regiones de igual importancia y luego una jerarquía más refinada: áreas conectadas a un área dorsal, modelo común en Internet para mantener la red modular y eficiente.
+Para resolver el primer límite estudiamos cómo escalar el direccionamiento. Analizamos dos enfoques: ampliar el espacio de direcciones, como en IPv6, y mantener el mismo espacio pero administrarlo mejor, como hace NAT mediante la reutilización interna de direcciones. Esto mostró que el direccionamiento condiciona la evolución de toda la red. Luego abordamos el segundo límite: el crecimiento descontrolado de las tablas de reenvío. Introdujimos jerarquías para reducir la información que cada enrutador debe manejar. Primero vimos redes divididas en regiones de igual importancia y luego una jerarquía más refinada: áreas conectadas a un área dorsal, modelo común en Internet para mantener la red modular y eficiente.
 
 En conjunto, recorrimos cómo cada solución surge como respuesta al límite del modelo anterior. Desde el direccionamiento básico hasta las jerarquías avanzadas, vimos cómo la capa de red organiza el espacio y controla la complejidad para que una WAN pueda crecer sin volverse inmanejable.
 

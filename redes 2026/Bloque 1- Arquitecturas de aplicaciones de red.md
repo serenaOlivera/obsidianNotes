@@ -14,9 +14,10 @@ Elegir una arquitectura es decidir cómo fluye la información y cómo se repart
 - El servidor es la componente dominante que controla el estado, coordina los clientes, almacena datos y es el único punto de acceso.
 - El cliente hace pedidos de diferentes tipos y el servidor los procesa y responde.
 - Características: control fuerte, simplicidad, pero poca escabilidad sin infraestructura adicional.
+
 **Características de los nodos:**
 - Para los servidores:
-	  Ubicación:suele ser fija.
+	  Ubicación: suele ser fija.
 	  Direcciones IP: suele no cambiar 
 	  Tiempo de vida: es común que sea largo.
 - Para los clientes:
@@ -26,25 +27,26 @@ Elegir una arquitectura es decidir cómo fluye la información y cómo se repart
 
 ####  Cuadro de pasos que realiza una aplicación cliente-servidor que se apoya en:
 
-| UDP                                                                                                              |  TCP                                                                                                                       |     |
-| :--------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | --- |
-| 1. El servidor elige un puerto y se queda esperando pedidos                                                      | 1. El servidor elige un puerto y queda esperando conexiones                                                                |     |
-| 2. El cliente construye un paquete UDP completo con toda la información necesaria (parámetros)                   | 2. El cliente envía un pedido de conexión&nbsp;                                                                            |     |
-| 3. El cliente envía un paquete UDP a la dirección IP y puerto del servidor                                       | 3. Cuando el servidor recibe el pedido, acepta la conexión&nbsp;                                                           |     |
-| 4. El servidor lee el paquete UDP completo, identifica qué cliente lo envió e interpreta el pedido.              | 4. El cliente envía&nbsp; un mensaje de solicitud a través de la conexión ya establecida.                                  |     |
-| 5. El servidor construye un mensaje de respuesta que debe caber en un solo paquete UDP&nbsp;                     | 5. El servidor recibe el mensaje en el mismo orden en que fue enviado, lo interpreta y decide qué respuesta generar        |     |
-| 6. El servidor envía la respuesta al cliente                                                                     | 6. El servidor envía un mensaje de respuesta por la misma conexión.                                                        |     |
-| 7. El cliente espera un paquete de respuesta por un tiempo limitado (timeout)                                    | 7. Mientras la conexión siga abierta, el cliente puede enviar uno o varios pedidos adicionales sin necesidad de reconectar |     |
-| 8. Si ocurre el timeout, el cliente puede reenviar el pedido o abandonar según la lógica de la aplicación.&nbsp; | 8. Cuando el cliente termina de usar el servicio pide cerrar la conexión.                                                  |     |
-|                                                                                                                  | 9. El servidor confirma el cierre y ambos liberan la conexión                                                              |     |
+| UDP                                                                                                              | TCP                                                                                                                        |
+| :--------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| 1. El servidor elige un puerto y se queda esperando pedidos                                                      | 1. El servidor elige un puerto y queda esperando conexiones                                                                |
+| 2. El cliente construye un paquete UDP completo con toda la información necesaria (parámetros)                   | 2. El cliente envía un pedido de conexión&nbsp;                                                                            |
+| 3. El cliente envía un paquete UDP a la dirección IP y puerto del servidor                                       | 3. Cuando el servidor recibe el pedido, acepta la conexión&nbsp;                                                           |
+| 4. El servidor lee el paquete UDP completo, identifica qué cliente lo envió e interpreta el pedido.              | 4. El cliente envía&nbsp; un mensaje de solicitud a través de la conexión ya establecida.                                  |
+| 5. El servidor construye un mensaje de respuesta que debe caber en un solo paquete UDP&nbsp;                     | 5. El servidor recibe el mensaje en el mismo orden en que fue enviado, lo interpreta y decide qué respuesta generar        |
+| 6. El servidor envía la respuesta al cliente                                                                     | 6. El servidor envía un mensaje de respuesta por la misma conexión.                                                        |
+| 7. El cliente espera un paquete de respuesta por un tiempo limitado (timeout)                                    | 7. Mientras la conexión siga abierta, el cliente puede enviar uno o varios pedidos adicionales sin necesidad de reconectar |
+| 8. Si ocurre el timeout, el cliente puede reenviar el pedido o abandonar según la lógica de la aplicación.&nbsp; | 8. Cuando el cliente termina de usar el servicio pide cerrar la conexión.                                                  |
+|                                                                                                                  | 9. El servidor confirma el cierre y ambos liberan la conexión                                                              |
 
 ## Arquitecturas Peer to Peer (P2P)
 La arquitectura cliente-servidor tiene un costo: el servidor se convierte en un punto único de carga, de falla y de control. Surge entonces el modelo peer to peer donde los nodos dejan de ser meros consumidores y pasan a ser participantes activos en la red. 
 
 Nodos:
 - Hosts llamados peers ( compañeros)
-- ningún apoyo en servidores : P2P puro.
-- Mínimo apoyo en servidores: predominantemente P2P
+- Puede haber dos estilos de P2P
+	- ningún apoyo en servidores : P2P puro.
+	- Mínimo apoyo en servidores: predominantemente P2P
 
 **Responsabilidades:**
 - Peers:
@@ -109,6 +111,8 @@ Los **servidores** pueden:
 - Autenticación 
 - Indexación
 - Coordinación 
+
+
 Los **compañeros** realizan la transferencia de datos o el procesamiento distribuido. Esto permite reducir la carga del servidor sin perder orden ni coherencia en el sistema.
 
 ### Características
@@ -123,9 +127,9 @@ Los **compañeros** realizan la transferencia de datos o el procesamiento distri
 
 
 | Criterio&nbsp;            | Cliente- servidor                                                  | Predominante P2P                                                | Híbrida                                                                                                |
-|:--------------------------|:-------------------------------------------------------------------|:----------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------|
+| :------------------------ | :----------------------------------------------------------------- | :-------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
 | Escalabilidad             | Limitada por capacidad del servidor.&nbsp;                         | Muy alta: la carga se reparte entre los nodos.&nbsp;            | Alta: los servidores ayudan, pero los pares trabajan.                                                  |
 | Robustez                  | Baja: si el servidor falla, el servicio se cae.                    | Alta: la red funciona cuando algunos nodos se desconectan.      | Media-Alta: los servidores ayudan a estabilizar, pero no son únicos puntos de falla.                   |
 | Control                   | Centralizado: el servidor decide y organiza todo.&nbsp;            | Distribuido: cada nodo participa sin jefe central.              | Mixto: algunas cosas se controlan desde servidores, otras desde los pares.                             |
 | Costos de infraestructura | Altos: el servidor debe ser potente y estar siempre disponible.    | Bajo: la mayor parte lo hacen&nbsp; los nodos.                  | Medios: se necesitan servidores más capaces que en P2P, pero no tan críticos como en cliente-servidor. |
-| Rendimiento bajo carga    | Puede degradarse si muchos clientes acceden al mismo tiempo.&nbsp; | Mejora con más nodos: cuantos más participantes, más capacidad. | Suele ser estable: los servidores ordenan y los pares distribuyen la carga.                            |  
+| Rendimiento bajo carga    | Puede degradarse si muchos clientes acceden al mismo tiempo.&nbsp; | Mejora con más nodos: cuantos más participantes, más capacidad. | Suele ser estable: los servidores ordenan y los pares distribuyen la carga.                            |

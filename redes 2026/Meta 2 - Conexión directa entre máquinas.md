@@ -36,7 +36,7 @@ Supongamos que un mensaje se recibió con error;  ideas de cómo hacer para reci
 
 ### Fragmentación de mensajes
 Si el mensaje dañado es muy largo, no conviene retransmitirlo todo, es re costoso.
-Debemos dividir el mensaje en tramas, en lugar de mandar el mensaje entero se mandan tramas. Si una trama llega dañada, entonces se retransmite.
+Debemos dividir el mensaje en tramas, entonces, en lugar de mandar el mensaje entero se mandan tramas. Si una trama llega dañada, entonces se retransmite.
 Para esto, es necesario la numeración de tramas y reensamblado (en ese orden), confirmación de tramas buenas recibidas, y retransmisión de tramas dañadas.
 
 ## Repetidores 
@@ -70,4 +70,3 @@ Ejemplos de redes de área local:
 - ![[Pasted image 20260311200203.png]]
 - ![[Pasted image 20260311200236.png]]
 - ![[Pasted image 20260311200308.png]]
-

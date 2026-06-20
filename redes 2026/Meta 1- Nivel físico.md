@@ -52,7 +52,13 @@ El transmitir señales por medios físicos nos lleva al siguiente problema: la d
 
 El siguiente paso lógico es preguntarnos qué se hace para pasar de secuencias de bits a señales físicas y recíprocamente.
 
+**Codificación**
+Es el proceso de transformar la secuencia de bits (0 y 1) en una señal física que pueda transmitirse por el medio.  Se representan los bits en forma de pulsos eléctricos, variaciones de voltaje, ondas de luz o radiofrecuencia.
 El objetivo: asegurar que la señal sea interpretada correctamente por el receptor y que se minimicen errores durante la transmisión.
+
+**Decodificación:**
+Es el proceso inverso: recibir la señal física y convertirla nuevamente en la secuencia original de bits (0 y 1).  El receptor aplica el mismo esquema de codificación que usó el transmisor para interpretar correctamente la señal.
+Si la señal llega afectada por ruido, atenuación o interferencia, la decodificación puede ser más difícil y requerir técnicas adicionales de corrección de errores.
 
 ## Modulación 
 Las computadoras procesan y generan información en forma de señales digitales (secuencias de ceros y unos). Sin embargo, no todos los medios físicos de transmisión - como el aire en comunicaciones inalámbricas o ciertos tipos de cableado- pueden transportar directamente esas señales digitales. 

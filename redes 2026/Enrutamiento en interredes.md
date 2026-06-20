@@ -52,7 +52,7 @@ Por lo tanto:
 	 o Abstracción de topología : No ve la infraestructura interna de otras WAN. 
 	 o Visión parcial y agregada: Solo percibe prefijos, los identificadores de algunas WAN, algunas puertas de enlace (por ejemplo, de contacto directo).
 	 
-• Implementación: Los PPEE se ejecutan sobre las puertas de enlace (enrutadores mulitprotocolo). 
+• **Implementación: Los PPEE se ejecutan sobre las puertas de enlace (enrutadores mulitprotocolo).** 
 
 • Responsabilidades críticas de las puertas de enlace:
 	 Para que la interred sea estable y rentable, la puerta de enlace debe:
