@@ -2,7 +2,7 @@
 ## Organización, Direccionamiento y Reenvío en WAN
 Para comprender cómo funciona una WAN y cómo se la diseña, es necesario atender tres cuestiones fundamentales:
 1. Cómo está organizada la red en términos de máquinas y sus interconexiones.
-2. Cómo se nombran esas máquinas e interfaces medante un esquema de direccionamiento y
+2. Cómo se nombran esas máquinas e interfaces mediante un esquema de direccionamiento y
 3. Cómo se construyen las tablas de reenvío que permiten que los paquetes avancen hacia su destino.
 
 El primer desafío es lograr un esquema de direccionamiento que sea verdaderamente escalable. Un direccionamiento poco escalable, es aquel cuyas direcciones se agotan rápidamente o no alcanzan para cubrir la demanda creciente de nuevas máquinas, interfaces o LANs.
@@ -17,7 +17,7 @@ Es la base para construir tablas de reenvío más correctas y escalables. Este e
 Las interfaces están conectadas entre sí por medio de conmutadores y estaciones base.
 ![[Pasted image 20260413110530.png]]
 
-#### ¿Cómo se definen las direcciones de interfaces de las máquinas de una red local?
+#### ¿Cómo se definen las direcciones de interfaces de las máquinas de una red local (LAN)?
  Una dirección puede ser un número binario de n bits donde los primeros bits son del número de red y los últimos del número de interfaz. Por ejemplo IPv4 usa direcciones de 32 bits.
 
 ¿Conviene que una tabla de reenvío contenga como destinos números de interfaz de máquinas?
@@ -172,7 +172,7 @@ Para enviar un paquete de un origen u a un destino v se respetan las siguientes 
 Problemas de la inundación 
 - La inundación genera grandes cantidades de paquetes duplicados. 
 - Árbol de envío de paquetes. Cada arco representa un paquete que se envía. 
-- Árbol de envío de paquetes es infinito con infinitos duplicados. Osea, se generan infinitas rutas. La causa es la presencia de ciclos en el grafo de la subred.
+- Árbol de envío de paquetes es infinito con infinitos duplicados. O sea, se generan infinitas rutas. La causa es la presencia de ciclos en el grafo de la subred.
 
 ¿Qué información deben llevar los paquetes que se difunden?
 	El enrutador de origen pone un número de secuencia en cada paquete que recibe de sus hosts (así se distingue entre paquetes distintos del mismo enrutador de origen)
@@ -244,7 +244,6 @@ Cada enrutador construye un paquete de estado de enlace (LSP) conteniendo los re
 >	- Identidad del emisor (para saber de quien se trata)
 >	- Número de secuencia (para distinguir entre distintos LSP de un enrutador) 
 >	- Lista de <vecino, retardo al vecino>
-	
 
 ¿Cuándo se pueden construir los LSP?
 	- Construirlos a intervalos regulares.

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "Unidad 1/1. Probabilidad, Probabilidad condicional, Independencia.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Bienvenido"
+              "title": "1. Probabilidad, Probabilidad condicional, Independencia"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "Unidad 1/1. Probabilidad, Probabilidad condicional, Independencia.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes de Bienvenido"
+              "title": "Enlaces entrantes de 1. Probabilidad, Probabilidad condicional, Independencia"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "Unidad 1/1. Probabilidad, Probabilidad condicional, Independencia.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Enlaces salientes de Bienvenido"
+              "title": "Enlaces salientes de 1. Probabilidad, Probabilidad condicional, Independencia"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "Unidad 1/1. Probabilidad, Probabilidad condicional, Independencia.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema de Bienvenido"
+              "title": "Esquema de 1. Probabilidad, Probabilidad condicional, Independencia"
             }
           }
         ]
@@ -185,6 +185,23 @@
   },
   "active": "b433bc16ae2b8c51",
   "lastOpenFiles": [
-    "Bienvenido.md"
+    "screenshots/Pasted image 20260620140535.png",
+    "Ejemplos.md",
+    "screenshots/Pasted image 20260620140203.png",
+    "screenshots/Pasted image 20260620140152.png",
+    "screenshots/Pasted image 20260620140142.png",
+    "screenshots/Pasted image 20260620140113.png",
+    "screenshots/Pasted image 20260620140055.png",
+    "screenshots/Pasted image 20260620140038.png",
+    "Unidad 1/1. Probabilidad, Probabilidad condicional, Independencia.md",
+    "screenshots/Pasted image 20260620122619.png",
+    "screenshots/Pasted image 20260620121529.png",
+    "screenshots/Pasted image 20260620115902.png",
+    "screenshots/Pasted image 20260620114002.png",
+    "screenshots",
+    "Unidad 1",
+    "practicos 2025/Practico_1_Proba2025.pdf",
+    "practicos 2025",
+    "Nueva carpeta"
   ]
 }
