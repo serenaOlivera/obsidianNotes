@@ -1,4 +1,4 @@
-Una red de computadoras es un conjunto de computadoras interconectadas. La meta es, derivar una red similar a la internet.
+Una red de computadoras es un conjunto de computadoras interconectadas. Dos computadoras (también llamados hosts) están interconectadas si pueden intercambiar información.  La meta es, derivar una red similar a la internet.
 
 Metas:
 1. [[Meta 1- Nivel físico]] 

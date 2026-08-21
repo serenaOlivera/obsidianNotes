@@ -21,12 +21,13 @@ Este bloque responde a la pregunta ¿Cómo transformamos bits en algo que pueda 
   - fibra óptica: 
     fibras multimodo: 50 micras (luz rebota)
     fibras monomodo: 8 a 10 micras  (luz línea recta)
+  - ![[Pasted image 20260701211855.png]]
 - medios no guiados :
    como radios o microondas
 - medios magnéticos:
   DVD's, Blu-ray, cintas magnéticas
 
-Por ejemplo, la radio es una señal transportada en el espectro electromagnético, no se usan cables físicos, bidireccional. Efectos de la propagación en el entorno: reflexión, obstrucción por objetos, interferencia. 
+Por ejemplo, la radio es una señal transportada en el espectro electromagnético, no se usan cables físicos, y es bidireccional. Efectos de la propagación en el entorno: reflexión, obstrucción por objetos, interferencia. 
 Los **tipos de enlace de radio** son los siguientes:
 - Microondas terrestres 
 - LAN (ej: wifi)
