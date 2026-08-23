@@ -59,7 +59,7 @@ La Estadística es la ciencia que comprende :
 ### Selección de datos 
 Hay dos métodos básicos para seleccionar datos desde una población.
 
-**Muestra Aleatoria Simple:**
+**Muestra Aleatoria :**
 Cada elemento de la población tiene la misma chance de ser seleccionado.
 
 **Muestra No Aleatoria:** 
@@ -144,7 +144,7 @@ Definición rigurosa $\implies$ se establecen leyes o axiomas (menor conjunto po
 >[!tip] Regla de Laplace
 >La probabilidad de un suceso formado por k sucesos elementales $A={a_1,...,a_k}$ es:
 >$$\mathcal{P}(A) = \sum_{i=1}^{k} \frac{1}{n} = \frac{k}{n} = \frac{\#(A)}{\#(\Omega)} = \frac{\text{casos favorables/probables}}{\text{casos posibles}}$$
->Este procedimiento para hallar la probabilidad de uns uceso es correcta **sólo en espacios equiprobables**
+>Este procedimiento para hallar la probabilidad de un suceso es correcta **sólo en espacios equiprobables**
 
 
 >[!info] Propiedades
@@ -220,3 +220,6 @@ Para encontrar la probabilidad de que el servidor falle en exactamente uno de lo
 $$ \mathcal{P}(A^c \cap B) = \mathcal{P}(B) - \mathcal{P} (A \cap B) = 0,7 -0,6 = 0,1$$
 Finalmente, sumamos las probabilidades:
 $$\mathcal{P}(\text{fallé en exactamente uno de los meses}) = \mathcal{P}(A \cap B^c) + P(A^c \cap B) = 0,2 + 0,1 = 0,3$$
+
+Capitulo 1
+Capituo 2, secciones 1,2 y 3

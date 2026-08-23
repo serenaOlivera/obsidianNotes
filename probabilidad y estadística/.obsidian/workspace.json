@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "18b0927bd32a886b",
+        "id": "5c752e09f1460c97",
         "type": "tabs",
         "children": [
           {
-            "id": "88026aeea4f6a209",
+            "id": "7f2e51315cf17c12",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,8 +20,37 @@
               "icon": "lucide-file",
               "title": "Clase 1 - 11 de Agosto"
             }
+          },
+          {
+            "id": "2c6c5c1357673fb8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Clase 2 - 13 de Agosto.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Clase 2 - 13 de Agosto"
+            }
+          },
+          {
+            "id": "8e718b30aca76c9c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Clase 3 - 18 de Agosto.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Clase 3 - 18 de Agosto"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -80,8 +109,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cf83ddaecb06fa5b",
@@ -188,10 +216,14 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
-  "active": "88026aeea4f6a209",
+  "active": "8e718b30aca76c9c",
   "lastOpenFiles": [
-    "Sin título.md",
+    "practicos 2025/Practico2PyE.pdf",
+    "Clase 2 - 13 de Agosto.md",
+    "Clase 3 - 18 de Agosto.md",
     "Clase 1 - 11 de Agosto.md",
+    "pdfs/Probabilidad y Estadistica para Ingenieria y Ciencias - Jay Devore - Septima Edicion.pdf",
+    "pdfs/Jay L. Devore - Probabilidad y Estadística para Ingeniería y Ciencias-Cengage Learning (2018).pdf",
     "Screenshots/Sin título.md",
     "Sin nombre 1",
     "Screenshots",
