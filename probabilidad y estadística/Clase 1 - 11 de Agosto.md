@@ -199,7 +199,8 @@ B. tres tiradas para obtener un 6
 C. cuatro tiradas para obtener un 6 
 
 Como los eventos anteriores son disjuntos, la probabilidad requerida se calcula como la suma: 
-$$\mathcal{P}(\text{necesito entre dos y cuatro tiradas para obtener un seis}) = \mathcal{P}(A) + \mathcal{P}(B) + \mathcal{P}(C) = (\frac{5}{6})^2 * \frac{1}{6} + (\frac{5}{6})^3 * \frac{1}{6} + (\frac{5}{6})^4 * \frac{1}{6} = 0.2925$$
+$$\mathcal{P}(\text{necesito entre dos y cuatro tiradas para obtener un seis}) = \mathcal{P}(A) + \mathcal{P}(B) + \mathcal{P}(C)$$
+$$ = (\frac{5}{6})^2 * \frac{1}{6} + (\frac{5}{6})^3 * \frac{1}{6} + (\frac{5}{6})^4 * \frac{1}{6} = 0.2925$$
 #### Ejemplo 3
 
 Una empresa controla mensualmente el funcionamiento de sus múltiples servidores. Sea A el evento de que un servidor, elegido al azar, haya presentado una falla durante el mes de abril y sea B el evento de que ese mismo servidor haya presentado una falla durante el mes de octubre.
@@ -220,6 +221,3 @@ Para encontrar la probabilidad de que el servidor falle en exactamente uno de lo
 $$ \mathcal{P}(A^c \cap B) = \mathcal{P}(B) - \mathcal{P} (A \cap B) = 0,7 -0,6 = 0,1$$
 Finalmente, sumamos las probabilidades:
 $$\mathcal{P}(\text{fallé en exactamente uno de los meses}) = \mathcal{P}(A \cap B^c) + P(A^c \cap B) = 0,2 + 0,1 = 0,3$$
-
-Capitulo 1
-Capituo 2, secciones 1,2 y 3
