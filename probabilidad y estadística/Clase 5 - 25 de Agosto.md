@@ -263,5 +263,15 @@ Ejemplo
 El número de errores en un artículo de investigación cuando llega al editor final es una variable con distribución Poisson con \mu=4.6 ¿Cuál es la probabilidad de que haya 2 o más erores en un artículo seleccionado al azar?
 $$P(X \geq 2) = 1- P(X<2)$$
 $$= 1- f(0)-f(1)$$
-te quedaste en filmina 57
+$$= 1- e^{-4.6}\frac{4.6⁰}{0!} -e^{-4.6}\frac{4.6¹}{1!}$$
+$$= 1- e^{-4.6} -4.6e^{-4.6}$$
+$$\approx .944$$
 
+1. ¿Porqué pordía ser razonable utilizar la distribución de Poisson como modelo para el número de errores tipográficos?
+2. Cada artículo tiene muchas palabras (por ejemplo, n=1000)
+3. Hay una pequeña probabilidad de que cada palabra tenga un error tipográfico (por ejemplo, $p=0.0046$)
+4. Si los errores tipográficos son independientes entre palabras, entonces el número de errores tripográficos igue unda distribución binomial.
+5. Dado que $n$ es grande y $p$ es pequeño, esta distribución binomial se puede aproximar a una distribución Poisson, ($\mu = np =4.6$)
+6. Sin embargo, todo esto es conjetura. No se nos dice cuántas palabras tiene el artículo de opinión, ni la probabilidad de que cada palabra tenga un error tipográfico. Simplemente asumimos que el número de Poisson se utiliza a menudo para datos de conteo, incluso cuando no hay un modelo binomial subyacente.
+
+![[Pasted image 20260905160327.png|512]]
