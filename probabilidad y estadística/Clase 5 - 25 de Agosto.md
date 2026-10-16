@@ -134,14 +134,14 @@ $\mu_1 = E[X-\mu_X] = E[X]- \mu_X = \mu_X -\mu_X =0$ (el momento central de orde
 ## Distribuciones conocidas 
 ****
 
-### Distribución Degenerada $X\equiv \delta_c$
+### Distribución Degenerada $X \sim \delta_c$
 Una variable aleatoria $X$ tiene distribución degenarada en el punto c si tene toda la probabilidad concentrada en dicho punto 
 >[!info] Función de masa:
 >$$P(X=c)=1, \ \ \ \  P(X \neq c)=0$$
 >**Esperanza y varianza:**
 >$$E[X]=c, \ \ \ \ V(X)=c²-c²=0$$
 
-### Distribución Uniforme Discreta $X \equiv \text{Unif}\{x_1,...,x_n\}$
+### Distribución Uniforme Discreta $X \sim \text{Unif}\{x_1,...,x_n\}$
 Una variable aleatoria $X$ tiene una distribución uniforme discreta sobre el conjunto de números $\{x_1,...,x_n\}$ si la probabilidad de que tome cualquiera de estos valores es la misma.
 >[!info] Función de masa
 >$$P(X=x_i)=
@@ -155,7 +155,7 @@ Una variable aleatoria $X$ tiene una distribución uniforme discreta sobre el co
 >**Esperanza y Varianza:**
 >$$E[X]=\frac{1}{n} \sum_{i=1}^n x_i, \ \ \ \ V(X) = \frac{1}{n}\sum_{i=1}^n x_i^2 - (\frac{1}{n} \sum_{i=1}^n x_i)²$$
 
-### Distribución Bernoulli $X \equiv Bern(p)$
+### Distribución Bernoulli $X \sim Bern(p)$
 Las pruebas de Bernoulli son experimentos aleatorios con 2 resultados posibles, "éxito", E y "fracaso" F, con probabilidades $P(E)= p$ y $P(F)=1-p=q$
 - "Observar un chip al azar d elos producidos en una fábrica" $\rightarrow E=\text{"el chip no es defectuoso"}$ y $F=\text{"el chip es defectuoso"}$
 - "Lanzar una moneda dos veces" $\rightarrow$ nos puede interesar sacar el mismo resultado las dos veces $\rightarrow E=\{CC,++\} \ y\ F=\{C+,+C\}$
@@ -174,7 +174,7 @@ $$X=
 >$$E[X]=p \ \ \ \ V(X)=p(1-p)=pq$$
 >Suma: la suma de v.a.'s independientes Bern(p) da lugar a otro tipo de v.a. denominada Binomal, de la que la Bernoulli es un caso particular.
 
-### Distribución Binomial $X \equiv B(n,p)$
+### Distribución Binomial $X \sim B(n,p)$
 - Se genera por la repetición de n pruebas Bernouilli independientes.
 - X="número de éxitos obtenidos en las n pruebas de Bernouilli"
 - puede escrbirse como la suma de n v.a. Bern(p), independientes $$X=X_1,...,X_n,$$ con $$X_i =
@@ -221,11 +221,11 @@ $X_i \equiv Bern(p),\ \  i=1,...,n$
 >   $$\approx .5973$$
 
 
-### Distribución Poisson $X \equiv \mathbb{P}(\lambda)$
+### Distribución Poisson $X \sim \mathbb{P}(\lambda)$
 Expresa la probabilidad de que ocurran un número x de sucesos en un tiempo fijo, si ocurren con una tasa media conocida, $\lambda$, y son independientes del tiempo transcurrido desde el último suceso.
 Se aplica a sucesos con probabiildad muy baja de ocurrir (sucesos "raros")
 >[!info] Función de masa, Esperanza y Varianza
->$$P(X=x) = \frac{e^{-\lambda} \lambda^{x}}{x!}, \ \ \ \ x=0,1,...$$
+>$$P(X=x) = \frac{e^{-\lambda} \lambda ^{x}}{x!}, \ \ \ \ x=0,1,...$$
 >$$E[X]=V[X]=\lambda$$
 >Suma: si $X_i \equiv \mathbb{P}(\lambda_i)$ son independientes $\implies \text{la v.a.} \sum_{i} X_i \equiv \mathbb{P}(\sum_{i} \lambda_i)$
 

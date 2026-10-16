@@ -19,7 +19,7 @@ EL T mínimo de un clock, es la suma de todos esos tiempos. Pero en realidad ten
 Pipeline: 
 Básicamente, a medida que avanzo (FDEMW), hay 5 estaciones de trabajo y como ya hice fetch, ya lo libere (el resto no accede a esa parte del procesador, entonces puedo ocuparo por otro). ESO es pipeline, usar el tiempo eficientemente de alguna manera (lavarropas ejemplo)
 
-k=5 y n= nro de instrucciones (en este caso 10)
+k=5 (nro de etapas) y n= nro de instrucciones (en este caso 10)
 El tiempo de programa con pipeline (TP) = k pulsos de reloj para que se llene el pipeline
 					$$TP_{pl} = k*T_r + (n-1 *T)$$
 cada una de las memorias que sigue, va a necesitar .

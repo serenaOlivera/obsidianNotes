@@ -1,4 +1,4 @@
-explicación breve de funcionamiento vivado
+ explicación breve de funcionamiento vivado
 
 design source --> si creamos ej el flopr
 simulation source ->> test benchs!
