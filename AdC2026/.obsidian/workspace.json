@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Clase 14 -  Octubre  16.md",
+                "file": "Clase 13 - Octubre 14- todo lab.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Clase 14 -  Octubre  16"
+              "title": "Clase 13 - Octubre 14- todo lab"
             }
           }
         ]
@@ -186,20 +186,70 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
+  "floating": {
+    "id": "6c6c62515903e3d8",
+    "type": "floating",
+    "children": [
+      {
+        "id": "b8767d76974fb6e6",
+        "type": "window",
+        "children": [
+          {
+            "id": "908255608bc6c6cb",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "e929f6b7112c3f7a",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Parcial 2.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Parcial 2"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 442,
+        "y": 260,
+        "width": 1221,
+        "height": 642,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
   "active": "1746271af0e5eef3",
   "lastOpenFiles": [
-    "Clase 13 - Octubre 14- todo lab.md",
     "Clase 14 -  Octubre  16.md",
-    "Clase 4 - Agosto 26.md",
-    "Clase 14 -  8 de octubre.md",
-    "screenshots/Pasted image 20261014115637.png",
-    "screenshots/Pasted image 20261014114515.png",
-    "pdfs/Práctico4-clase.pdf",
+    "Clase 13 - Octubre 14- todo lab.md",
     "Clase 12 - Octubre 7.md",
     "Clase 11 - Septiembre 25.md",
     "Clase 10 - Septiembre 16.md",
     "Clase 9 - Septiembre 11.md",
     "Clase 8 - Septiembre 9.md",
+    "pdfs/OrganizacionMemoriasCACHE.pptx.pdf",
+    "Parcial 2.md",
+    "screenshots/Pasted image 20261017212848.png",
+    "screenshots/Pasted image 20261017205621.png",
+    "screenshots/Pasted image 20261017205258.png",
+    "screenshots/Pasted image 20261017205244.png",
+    "screenshots/Pasted image 20261017204038.png",
+    "screenshots/Pasted image 20261017203946.png",
+    "screenshots/Pasted image 20261017203809.png",
+    "screenshots/Pasted image 20261017203004.png",
+    "screenshots/Pasted image 20261017202831.png",
+    "screenshots/Pasted image 20261017202705.png",
+    "pdfs/OrganizacionMemoriasCACHE_withNOTES-1.pdf",
+    "Clase 4 - Agosto 26.md",
+    "Clase 14 -  8 de octubre.md",
+    "pdfs/Práctico4-clase.pdf",
     "Clase 7 - Septiembre 4.md",
     "Clase 6 - Septiembre 2.md",
     "Clase 5 - Agosto 28.md",
@@ -207,22 +257,12 @@
     "Clase 2 - Agosto 19.md",
     "Clase 1 - Agosto 14.md",
     "pdfs/Guia Laboratorio ARMv8 en SV 2026.pdf",
-    "screenshots/Pasted image 20260925113306.png",
-    "screenshots/Pasted image 20260925101635.png",
     "pdfs/presentacion_fpga_vivado.pdf",
     "Filminas Parcial 1.md",
     "pdfs/Computer Organization and Design - The Hardware Software Interface ARM Edition - David A. Patterson, J.pdf",
     "pdfs/Práctico 2_ Test del procesador de un ciclo.pdf",
-    "screenshots/Pasted image 20260921191708.png",
     "pdfs/Presentacion FAMAF_AdC_IOExceptions.pptx.pdf",
     "pdfs/Repaso implementación ISA LEGv8.pdf",
-    "pdfs/PrieraClasePipeLine2026.pdf",
-    "screenshots/Pasted image 20260920225206.png",
-    "screenshots/Pasted image 20260920224952.png",
-    "screenshots/Pasted image 20260920224731.png",
-    "screenshots/Pasted image 20260920222717.png",
-    "pdfs/intro_systemverilog.pdf",
-    "pdfs/Práctico 1 - Procesador de un ciclo.pdf",
-    "Pasted image 20260914104759.png"
+    "pdfs/PrieraClasePipeLine2026.pdf"
   ]
 }
