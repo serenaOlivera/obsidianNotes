@@ -60,9 +60,21 @@
               "icon": "lucide-file",
               "title": "Clase 13 - 1 de Octubre"
             }
+          },
+          {
+            "id": "24ffa2afb14411c9",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.13.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "Registro de cambios 1.13.7"
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -228,7 +240,7 @@
       "markdown-table-editor:Open Markdown Table Editor": false
     }
   },
-  "active": "35589c3999b99278",
+  "active": "24ffa2afb14411c9",
   "lastOpenFiles": [
     "Clase 15 - 8 de Octubre.md",
     "screenshots/Pasted image 20261014214412.png",
